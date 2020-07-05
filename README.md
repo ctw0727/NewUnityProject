@@ -1,7 +1,6 @@
 # Barrage Platformer Game Practice
  
-key
-
+Control Keys
 - W, Space : Jump
 - A,D : Move
 - S : Jump down platforms
