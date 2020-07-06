@@ -7,19 +7,25 @@ public class ctw_Player_behavior : MonoBehaviour
 	Transform PlayerTransform;
 	Rigidbody2D PlayerRigid2D;
 	Collider2D PlayerCollider;
+	
+	public PhysicsMaterial2D Normal;
+	public PhysicsMaterial2D Bouncy;
+	
 	Camera MainCamera;
 	
 	public bool DOWN = false;
+	public int OnAttack = 0;
+	public int HP = 3;
 	
-	float HP = 1;
 	int OnAir = 0;
-	int OnAttack = 0;
+	
 	
     void Start(){
 		
         PlayerTransform = GetComponent<Transform>();
 		PlayerRigid2D = GetComponent<Rigidbody2D>();
-		PlayerCollider = GetComponent<Collider2D>();
+		PlayerCollider = GetComponent<PolygonCollider2D>() as Collider2D;
+		
 		MainCamera = GameObject.Find("ctw_Main Camera").GetComponent<Camera>();
     }
 	
@@ -32,8 +38,8 @@ public class ctw_Player_behavior : MonoBehaviour
 	
 	// Timer
 	
-	void Timer(){
-		
+	void TimerAttackReset(){
+		OnAttack = 0;
 	}
 	
 	// Get
@@ -86,7 +92,8 @@ public class ctw_Player_behavior : MonoBehaviour
 			if (Input.GetKey(KeyCode.D))
 				XMoveCount++;
 			
-			PlayerRigid2D.velocity = new Vector2(15*XMoveCount,PlayerRigid2D.velocity.y);
+			if (Mathf.Abs(PlayerRigid2D.velocity.x) < 15)
+				PlayerRigid2D.velocity = new Vector2(PlayerRigid2D.velocity.x+1*XMoveCount,PlayerRigid2D.velocity.y);
 			
 			if (Input.GetKeyDown(KeyCode.S)){
 				DOWN = true;
@@ -96,7 +103,7 @@ public class ctw_Player_behavior : MonoBehaviour
 			}
 			
 			if ((Input.GetKeyDown(KeyCode.W)||Input.GetKeyDown(KeyCode.Space))&&(OnAir == 0)){
-				PlayerRigid2D.velocity = PlayerRigid2D.velocity + new Vector2(0,35);
+				PlayerRigid2D.velocity = PlayerRigid2D.velocity + new Vector2(0,40);
 				OnAir = 1;
 			}
 		}
@@ -116,16 +123,23 @@ public class ctw_Player_behavior : MonoBehaviour
 		else if ((Input.GetMouseButtonUp(0))&&(OnAttack == 1)){
 			PlayerRigid2D.velocity = GetForceDirection()*Mathf.Abs(PlayerRigid2D.angularVelocity)/40;
 			OnAttack = 2;
+			PlayerCollider.sharedMaterial = Bouncy;
 		}
 		
 		if (OnAttack == 1){
 			PlayerRigid2D.angularDrag = 0.1f;
-			PlayerRigid2D.drag = 15f;
+			PlayerRigid2D.drag = 2.5f;
+			PlayerRigid2D.gravityScale = 0.5f;
 		}
+		
 		else{
 			PlayerRigid2D.angularDrag = 0.2f;
-			PlayerRigid2D.drag = 0f;
+			PlayerRigid2D.drag = 0.2f;
+			PlayerRigid2D.gravityScale = 9.8f;
 		}
+		
+		if (OnAttack != 2)
+			PlayerCollider.sharedMaterial = Normal;
 	}
 	
 	// Running
@@ -138,17 +152,15 @@ public class ctw_Player_behavior : MonoBehaviour
 				
 				if ((Script.Trigger == false)&&(PlayerRigid2D.velocity.y <= 0)){
 					OnAir = 0;
-					OnAttack = 0;
 				}
 			break;
 			
 			case "Enemy":
-				OnAttack = 0;
+				
 			break;
 			
 			case "Ground":
 				OnAir = 0;
-				OnAttack = 0;
 			break;
 		}
 	}
@@ -165,7 +177,11 @@ public class ctw_Player_behavior : MonoBehaviour
 			break;
 		}
 	}
-
+	
+	void OnCollisionEnter2D(Collision2D other){
+		TimerAttackReset();
+	}
+	
     void Update()
     {
 		InputAttack();
