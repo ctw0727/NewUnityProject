@@ -27,6 +27,9 @@ public class ctw_Bullet_behavior : MonoBehaviour
 		if ((other.tag == "Wall")||(other.tag == "Ground")){
 			StrikeWall();
 		}
+		if ((other.tag == "Eraser")&&(other.GetComponent<ctw_Eraser>().Alpha > 0.1f)){
+			OnWork = false;
+		}
 	}
 	
 	void Rendering(){

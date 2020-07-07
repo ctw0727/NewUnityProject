@@ -11,6 +11,8 @@ public class ctw_Player_behavior : MonoBehaviour
 	Collider2D PlayerCollider;
 	SpriteRenderer PlayerSprite;
 	
+	ctw_Eraser Eraser;
+	
 	public PhysicsMaterial2D Normal;
 	public PhysicsMaterial2D Bouncy;
 	
@@ -31,6 +33,8 @@ public class ctw_Player_behavior : MonoBehaviour
 		PlayerRigid2D = GetComponent<Rigidbody2D>();
 		PlayerCollider = GetComponent<PolygonCollider2D>() as Collider2D;
 		PlayerSprite = GetComponent<SpriteRenderer>();
+		
+		Eraser = GameObject.Find("ctw_Eraser_Obj").GetComponent<ctw_Eraser>();
 		
 		MainCamera = GameObject.Find("ctw_Main Camera").GetComponent<Camera>();
     }
@@ -79,6 +83,7 @@ public class ctw_Player_behavior : MonoBehaviour
 			HP -= 1;
 			AlphaInvincible = 0f;
 			Invincible = 1;
+			Eraser.Alpha = 1f;
 			Invoke("TimerInvincibleReset",3.0f);
 		}
 		else if (HP == 1){
@@ -103,7 +108,7 @@ public class ctw_Player_behavior : MonoBehaviour
 		float XMoveCount = 0;
 		
 		if (OnAttack == 0){
-				
+			
 			if (Input.GetKey(KeyCode.A))
 				XMoveCount--;
 			if (Input.GetKey(KeyCode.D))
@@ -202,7 +207,7 @@ public class ctw_Player_behavior : MonoBehaviour
 			case "Enemy":
 				if ((other.name == "ctw_Bullet(Clone)")&&(Invincible == 0)){
 					if (other.GetComponent<ctw_Bullet_behavior>().OnWork == true){
-						OnDamage();
+						if (DEAD != 1) OnDamage();
 						other.GetComponent<ctw_Bullet_behavior>().OnWork = false;
 					}
 				}
@@ -232,15 +237,16 @@ public class ctw_Player_behavior : MonoBehaviour
 	void OnCollisionEnter2D(Collision2D other){
 		
 		if ((OnAttack != 2)&&(other.collider.name == "ctw_Boss")&&(Invincible == 0))
-			OnDamage();
+			if (DEAD != 1) OnDamage();
 		
 		TimerAttackReset();
 	}
 	
     void Update(){
-		
-		InputAttack();
-        InputMove();
+		if (DEAD != 1){
+			InputAttack();
+			InputMove();
+		}
 		
 		OnInvincible();
 		

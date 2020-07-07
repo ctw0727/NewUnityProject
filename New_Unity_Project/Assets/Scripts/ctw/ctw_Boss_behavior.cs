@@ -61,6 +61,14 @@ public class ctw_Boss_behavior : MonoBehaviour
 	
 	// Gets
 	
+	float Get_angle_toPosition(Vector3 Pos){
+		
+		Vector3 BossPos = BossTransform.position;
+		
+		return ( Mathf.Atan2(Pos.y-BossPos.y, Pos.x-BossPos.x) * Mathf.Rad2Deg );
+		
+	}
+	
 	Vector2 Get_Force_Direction(){
 		
 		Vector3 PlayerPos = PlayerTransform.position;
@@ -110,11 +118,6 @@ public class ctw_Boss_behavior : MonoBehaviour
 	
 	// Attacks
 	
-	void Attack_Melee(){
-		
-		
-	}
-	
 	GameObject Attack_Gen_Bullet(){
 		
 		Vector3 BossPos = BossTransform.position;
@@ -161,37 +164,44 @@ public class ctw_Boss_behavior : MonoBehaviour
 	
 	// Attack Patterns
 	
-	void Attack_Pattern_right(){
+	void Attack_Melee(){
 		
+		
+	}
+	
+	void Attack_Pattern_0(){
+		
+		float angle = Get_angle_toPosition(PlayerTransform.position);
+		Attack_SetBullet(30f,Get_Target_AngleToPos(angle),Quaternion.AngleAxis(angle, Vector3.forward));
+		Attack_SetBullet(30f,Get_Target_AngleToPos(angle+7),Quaternion.AngleAxis(angle+7, Vector3.forward));
+		Attack_SetBullet(30f,Get_Target_AngleToPos(angle-7),Quaternion.AngleAxis(angle-7, Vector3.forward));
+		ATTACK = 1;
+		Invoke("Timer_AttackCool",0.8f);
+		if (Time >= 4){
+			AttackType = 1;
+			Time = 0;
+		}
+	}
+	
+	void Attack_Pattern_1(){
+		for(float i = -180; i<180; i+=20){
+			Attack_SetBullet(20f,Get_Target_AngleToPos(i),Quaternion.AngleAxis(i, Vector3.forward));
+			Attack_SetBullet(16f,Get_Target_AngleToPos(i-10),Quaternion.AngleAxis(i-10, Vector3.forward));
+		}
+		ATTACK = 1;
+		Invoke("Timer_AttackCool",1.0f);
+		if (Time >= 3){
+			AttackType = 0;
+			Time = 0;
+		}
 	}
 	
 	
 	// Running
 	
 	void Attacking(){
-		
 		if (ATTACK == 0){
-			if (AttackType == 0){
-				Attack_SetBullet(30f,PlayerTransform.position,Get_toPlayer_rotation());
-				ATTACK = 1;
-				Invoke("Timer_AttackCool",0.5f);
-				if (Time >= 4){
-					AttackType = 1;
-					Time = 0;
-				}
-			}
-			else if (AttackType == 1){
-				for(float i = -180; i<180; i+=20){
-					Attack_SetBullet(20f,Get_Target_AngleToPos(i),Quaternion.AngleAxis(i, Vector3.forward));
-					Attack_SetBullet(16f,Get_Target_AngleToPos(i-10),Quaternion.AngleAxis(i-10, Vector3.forward));
-				}
-				ATTACK = 1;
-				Invoke("Timer_AttackCool",1.0f);
-				if (Time >= 2){
-					AttackType = 0;
-					Time = 0;
-				}
-			}
+			Invoke("Attack_Pattern_"+AttackType.ToString() , 0f);
 		}
 	}
 	

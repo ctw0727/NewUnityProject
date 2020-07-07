@@ -8,6 +8,7 @@ TagManager:
   - Platform
   - Enemy
   - Wall
+  - Eraser
   layers:
   - Default
   - TransparentFX
