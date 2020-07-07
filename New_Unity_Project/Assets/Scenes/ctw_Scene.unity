@@ -121,6 +121,38 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &18244163 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5322710031547442125, guid: edb19192a27c9e9429be87478a72c6b1,
+    type: 3}
+  m_PrefabInstance: {fileID: 5322710032349523645}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &18244167
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18244163}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &110509095
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 110509096}
   m_Layer: 0
-  m_Name: Preloads
+  m_Name: ctw_Effector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,6 +183,70 @@ Transform:
   m_Father: {fileID: 1612928791}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &591452768 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5322710032041935943, guid: edb19192a27c9e9429be87478a72c6b1,
+    type: 3}
+  m_PrefabInstance: {fileID: 5322710032349523645}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &591452772
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 591452768}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!1 &703779618 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5322710031317755058, guid: edb19192a27c9e9429be87478a72c6b1,
+    type: 3}
+  m_PrefabInstance: {fileID: 5322710032349523645}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &703779622
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 703779618}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!4 &887588794 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5322710032683264263, guid: edb19192a27c9e9429be87478a72c6b1,
@@ -169,6 +265,7 @@ GameObject:
   - component: {fileID: 1543231320}
   - component: {fileID: 1543231319}
   - component: {fileID: 1543231318}
+  - component: {fileID: 1543231321}
   m_Layer: 0
   m_Name: ctw_Boss
   m_TagString: Enemy
@@ -215,7 +312,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 1543231316}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8da0d72db1317cc42a53d74af1e14b20, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -262,7 +359,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: dbb6018cc61842949ac23ff338d1bdf2, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6886792, g: 0.21115166, b: 0.21115166, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -272,6 +369,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1543231321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1543231316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd551d04dc24ff741b14f4a577124d47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  STUN: 0
+  BulletPrefab: {fileID: 8462338759821967857, guid: e30467d83c223ed48aa27dcc7b1f24d2,
+    type: 3}
 --- !u!1 &1612928790
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,7 +477,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.5}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!60 &1616915846
 PolygonCollider2D:
@@ -414,9 +526,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Normal: {fileID: 6200000, guid: 90cbc8f6e1cfa454980ff6f7d401771f, type: 2}
   Bouncy: {fileID: 6200000, guid: 8da0d72db1317cc42a53d74af1e14b20, type: 2}
-  DOWN: 0
+  DOWN: 1
   OnAttack: 0
   HP: 3
+  Invincible: 0
+  DEAD: 0
 --- !u!50 &1616915848
 Rigidbody2D:
   serializedVersion: 4
@@ -569,6 +683,61 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1612928791}
     m_Modifications:
+    - target: {fileID: 5322710031317755058, guid: edb19192a27c9e9429be87478a72c6b1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322710031547442125, guid: edb19192a27c9e9429be87478a72c6b1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322710031576679563, guid: edb19192a27c9e9429be87478a72c6b1,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322710031576679563, guid: edb19192a27c9e9429be87478a72c6b1,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322710031726082072, guid: edb19192a27c9e9429be87478a72c6b1,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322710031726082072, guid: edb19192a27c9e9429be87478a72c6b1,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322710031770349935, guid: edb19192a27c9e9429be87478a72c6b1,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322710031770349935, guid: edb19192a27c9e9429be87478a72c6b1,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322710032041935943, guid: edb19192a27c9e9429be87478a72c6b1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322710032406525794, guid: edb19192a27c9e9429be87478a72c6b1,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322710032406525794, guid: edb19192a27c9e9429be87478a72c6b1,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 5322710032683264260, guid: edb19192a27c9e9429be87478a72c6b1,
         type: 3}
       propertyPath: m_Name
@@ -628,6 +797,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322710032739434533, guid: edb19192a27c9e9429be87478a72c6b1,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322710032739434533, guid: edb19192a27c9e9429be87478a72c6b1,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322710032788096238, guid: edb19192a27c9e9429be87478a72c6b1,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322710032788096238, guid: edb19192a27c9e9429be87478a72c6b1,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: edb19192a27c9e9429be87478a72c6b1, type: 3}

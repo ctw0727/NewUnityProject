@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// All Codes worked well on 2020-07-06
+
 public class ctw_Player_behavior : MonoBehaviour
 {
 	Transform PlayerTransform;
 	Rigidbody2D PlayerRigid2D;
 	Collider2D PlayerCollider;
+	SpriteRenderer PlayerSprite;
 	
 	public PhysicsMaterial2D Normal;
 	public PhysicsMaterial2D Bouncy;
@@ -16,35 +19,44 @@ public class ctw_Player_behavior : MonoBehaviour
 	public bool DOWN = false;
 	public int OnAttack = 0;
 	public int HP = 3;
+	public int Invincible = 0;
+	public int DEAD = 0;
 	
 	int OnAir = 0;
-	
+	float AlphaInvincible = 0;
 	
     void Start(){
 		
         PlayerTransform = GetComponent<Transform>();
 		PlayerRigid2D = GetComponent<Rigidbody2D>();
 		PlayerCollider = GetComponent<PolygonCollider2D>() as Collider2D;
+		PlayerSprite = GetComponent<SpriteRenderer>();
 		
 		MainCamera = GameObject.Find("ctw_Main Camera").GetComponent<Camera>();
     }
 	
-	// Math
+	// Maths
 	
-	float Math_2D_Force(float x, float y){ // Success
+	float Math_2D_Force(float x, float y){
 		
 		return Mathf.Sqrt(Mathf.Pow(x,2)+Mathf.Pow(y,2));
 	}
 	
-	// Timer
+	// Timers
 	
 	void TimerAttackReset(){
+		
 		OnAttack = 0;
 	}
 	
-	// Get
+	void TimerInvincibleReset(){
+		
+		Invincible = 0;
+	}
 	
-	Vector2 GetForceDirection(){ // Success
+	// Gets
+	
+	Vector2 GetForceDirection(){
 		
 		Vector3 PlayerPos = PlayerTransform.position;
 		Vector3 MouseStaticPos = new Vector3(MainCamera.ScreenToWorldPoint(Input.mousePosition).x,MainCamera.ScreenToWorldPoint(Input.mousePosition).y,0);
@@ -61,27 +73,32 @@ public class ctw_Player_behavior : MonoBehaviour
 	
 	// Checks
 	
-	void Colliding(Collider2D other, int type){
+	void OnDamage(){
 		
+		if (HP > 1){
+			HP -= 1;
+			AlphaInvincible = 0f;
+			Invincible = 1;
+			Invoke("TimerInvincibleReset",3.0f);
+		}
+		else if (HP == 1){
+			HP = 0;
+			DEAD = 1;
+		}
 	}
 	
-	// Actions
-	
-	void StrikeEnemy(){
-		
+	void OnInvincible(){
+		if (Invincible == 1)
+			AlphaInvincible += 0.1f;
+		else if (DEAD == 1)
+			AlphaInvincible = 1.2f;
+		else
+			AlphaInvincible = 0f;
 	}
 	
-	void StrikeGround(){
-		
-	}
+	// Inputs
 	
-	void StrikePlatform(){
-		
-	}
-	
-	// Input
-	
-	void InputMove(){ // Success
+	void InputMove(){
 		
 		float XMoveCount = 0;
 		
@@ -95,7 +112,7 @@ public class ctw_Player_behavior : MonoBehaviour
 			if (Mathf.Abs(PlayerRigid2D.velocity.x) < 15)
 				PlayerRigid2D.velocity = new Vector2(PlayerRigid2D.velocity.x+1*XMoveCount,PlayerRigid2D.velocity.y);
 			
-			if (Input.GetKeyDown(KeyCode.S)){
+			if (Input.GetKey(KeyCode.S)){
 				DOWN = true;
 			}
 			else{
@@ -103,7 +120,7 @@ public class ctw_Player_behavior : MonoBehaviour
 			}
 			
 			if ((Input.GetKeyDown(KeyCode.W)||Input.GetKeyDown(KeyCode.Space))&&(OnAir == 0)){
-				PlayerRigid2D.velocity = PlayerRigid2D.velocity + new Vector2(0,40);
+				PlayerRigid2D.velocity = new Vector2(PlayerRigid2D.velocity.x,40);
 				OnAir = 1;
 			}
 		}
@@ -117,6 +134,9 @@ public class ctw_Player_behavior : MonoBehaviour
 			}
 			if ((PlayerRigid2D.angularVelocity >= -2000)&&(MainCamera.ScreenToWorldPoint(Input.mousePosition).x - PlayerTransform.position.x > 0)){
 				PlayerRigid2D.angularVelocity = PlayerRigid2D.angularVelocity - 30;
+			}
+			if (Mathf.Abs(PlayerRigid2D.angularVelocity) > 2000){
+				PlayerRigid2D.angularVelocity = PlayerRigid2D.angularVelocity/Mathf.Abs(PlayerRigid2D.angularVelocity)*2000;
 			}
 			OnAttack = 1;
 		}
@@ -144,10 +164,34 @@ public class ctw_Player_behavior : MonoBehaviour
 	
 	// Running
 	
-	void OnTriggerStay2D(Collider2D other){ // Success
+	void Caring(){
+		
+		if ((OnAir == 1)&&(OnAttack != 1)){
+			
+			PlayerRigid2D.gravityScale = 9.8f;
+		}
+		
+		if (OnAir == 0){
+			
+			PlayerRigid2D.gravityScale = 4.9f;
+		}
+	}
+	
+	void Rendering(){
+		
+		float R = PlayerSprite.color.r;
+		float G = PlayerSprite.color.g;
+		float B = PlayerSprite.color.b;
+		
+		PlayerSprite.color = new Color(R, G, B, Mathf.Abs((Mathf.Cos(AlphaInvincible))) );
+	}
+	
+	void OnTriggerStay2D(Collider2D other){
 		
 		switch (other.tag){
+			
 			case "Platform":
+			
 				ctw_Platform_behavior Script = other.GetComponent<ctw_Platform_behavior>();
 				
 				if ((Script.Trigger == false)&&(PlayerRigid2D.velocity.y <= 0)){
@@ -156,18 +200,25 @@ public class ctw_Player_behavior : MonoBehaviour
 			break;
 			
 			case "Enemy":
-				
+				if ((other.name == "ctw_Bullet(Clone)")&&(Invincible == 0)){
+					if (other.GetComponent<ctw_Bullet_behavior>().OnWork == true){
+						OnDamage();
+						other.GetComponent<ctw_Bullet_behavior>().OnWork = false;
+					}
+				}
 			break;
 			
 			case "Ground":
+			
 				OnAir = 0;
 			break;
 		}
 	}
 	
-	void OnTriggerExit2D(Collider2D other){ // Success
+	void OnTriggerExit2D(Collider2D other){
 		
 		switch (other.tag){
+			
 			case "Platform":
 				OnAir = 1;
 			break;
@@ -179,6 +230,10 @@ public class ctw_Player_behavior : MonoBehaviour
 	}
 	
 	void OnCollisionEnter2D(Collision2D other){
+		
+		if ((OnAttack != 2)&&(other.collider.name == "ctw_Boss")&&(Invincible == 0))
+			OnDamage();
+		
 		TimerAttackReset();
 	}
 	
@@ -186,5 +241,10 @@ public class ctw_Player_behavior : MonoBehaviour
     {
 		InputAttack();
         InputMove();
+		
+		OnInvincible();
+		
+		Caring();
+		Rendering();
     }
 }

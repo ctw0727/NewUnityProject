@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// All Codes worked well on 2020-07-06
+
 public class ctw_Platform_behavior : MonoBehaviour
 {
 	
@@ -14,13 +16,12 @@ public class ctw_Platform_behavior : MonoBehaviour
 	
 	Transform PlayerTransform;
 	
-    // Start is called before the first frame update
     void Start(){
 		
         PlatformTransform = GetComponent<Transform>();
 		PlatformCollider = gameObject.AddComponent<BoxCollider2D>() as BoxCollider2D;
-		PlatformCollider.offset = new Vector2(0,-1);
-		PlatformCollider.size = new Vector2(1,2);
+		PlatformCollider.offset = new Vector2(0,-2f);
+		PlatformCollider.size = new Vector2(1,4);
 		
 		PlayerTransform = GameObject.Find("ctw_Player").GetComponent<Transform>();
     }
@@ -38,7 +39,7 @@ public class ctw_Platform_behavior : MonoBehaviour
 				Invoke("Cooler",0.5f);
 			}
 		}
-		if ((PlayerTransform.position.y < PlatformTransform.position.y -0.49f)&&(DownCool == 0)){
+		if ((PlayerTransform.position.y < PlatformTransform.position.y -1f)&&(DownCool == 0)){
 			PlatformCollider.isTrigger = true;
 		}
 	}
@@ -46,8 +47,7 @@ public class ctw_Platform_behavior : MonoBehaviour
 	void Cooler(){
 		DownCool = 0;
 	}
-
-    // Update is called once per frame
+	
     void Update(){
 		
 		Control();
