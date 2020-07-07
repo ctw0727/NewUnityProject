@@ -16,7 +16,7 @@ public class ctw_Boss_behavior : MonoBehaviour
 	
 	Transform BossTransform;
 	
-	GameObject[] Bullet = new GameObject[100];
+	GameObject[] Bullet = new GameObject[250];
 	int BulletPool = 0;
 	
 	int ATTACK = 0;
@@ -32,7 +32,7 @@ public class ctw_Boss_behavior : MonoBehaviour
 		PlayerScript = GameObject.Find("ctw_Player").GetComponent<ctw_Player_behavior>();
 		
 		BossTransform = GetComponent<Transform>();
-		Invoke("Timer_ticker",1.0f);
+		InvokeRepeating("Timer_ticker",1f,1f);
     }
 	
 	// Timers
@@ -40,7 +40,6 @@ public class ctw_Boss_behavior : MonoBehaviour
 	void Timer_ticker(){
 		
 		Time++;
-		Invoke("Timer_ticker",1.0f);
 	}
 	
 	void Timer_STUNCool(){
@@ -77,9 +76,14 @@ public class ctw_Boss_behavior : MonoBehaviour
 		return ForceDirection;
 	}
 	
-	Vector3 Get_Vector3_Direction(){
+	Vector3 Get_Target_AngleToPos(float angle){
+		return new Vector3(Mathf.Cos(angle*Mathf.Deg2Rad), Mathf.Sin(angle*Mathf.Deg2Rad), 0); 
+	}
+	
+	
+	Vector3 Get_Vector3_Direction(Vector3 Pos){
 		
-		Vector3 PlayerPos = PlayerTransform.position;
+		Vector3 PlayerPos = Pos;
 		Vector3 BossPos = BossTransform.position;
 		Vector3 PlayerPrivatePos = PlayerPos - BossPos;
 		
@@ -141,7 +145,7 @@ public class ctw_Boss_behavior : MonoBehaviour
 		return Bullet[i];
 	}
 	
-	void Attack_SetBullet(float Force,Quaternion rotation){
+	void Attack_SetBullet(float Force,Vector3 Target,Quaternion rotation){
 		
 		GameObject Bullet = Attack_CheckandReturn();
 		Vector3 BossPos = BossTransform.position;
@@ -151,7 +155,7 @@ public class ctw_Boss_behavior : MonoBehaviour
 		
 		BulletTransform.position = BossPos;
 		BulletTransform.rotation = rotation;
-		BulletScript.Vel = Get_Vector3_Direction()*Force;
+		BulletScript.Vel = Get_Vector3_Direction(Target)*Force;
 		BulletScript.OnWork = true;
 	}
 	
@@ -167,10 +171,27 @@ public class ctw_Boss_behavior : MonoBehaviour
 	void Attacking(){
 		
 		if (ATTACK == 0){
-			
-			Attack_SetBullet(10f,Get_toPlayer_rotation());
-			ATTACK = 1;
-			Invoke("Timer_AttackCool",1.0f);
+			if (AttackType == 0){
+				Attack_SetBullet(30f,PlayerTransform.position,Get_toPlayer_rotation());
+				ATTACK = 1;
+				Invoke("Timer_AttackCool",0.5f);
+				if (Time >= 4){
+					AttackType = 1;
+					Time = 0;
+				}
+			}
+			else if (AttackType == 1){
+				for(float i = -180; i<180; i+=20){
+					Attack_SetBullet(20f,Get_Target_AngleToPos(i),Quaternion.AngleAxis(i, Vector3.forward));
+					Attack_SetBullet(16f,Get_Target_AngleToPos(i-10),Quaternion.AngleAxis(i-10, Vector3.forward));
+				}
+				ATTACK = 1;
+				Invoke("Timer_AttackCool",1.0f);
+				if (Time >= 2){
+					AttackType = 0;
+					Time = 0;
+				}
+			}
 		}
 	}
 	

@@ -237,8 +237,8 @@ public class ctw_Player_behavior : MonoBehaviour
 		TimerAttackReset();
 	}
 	
-    void Update()
-    {
+    void Update(){
+		
 		InputAttack();
         InputMove();
 		
