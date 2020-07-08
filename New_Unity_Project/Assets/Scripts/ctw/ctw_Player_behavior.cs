@@ -197,18 +197,20 @@ public class ctw_Player_behavior : MonoBehaviour
 			
 			case "Platform":
 			
-				ctw_Platform_behavior Script = other.GetComponent<ctw_Platform_behavior>();
+				ctw_Platform_behavior PlatformScript = other.GetComponent<ctw_Platform_behavior>();
 				
-				if ((Script.Trigger == false)&&(PlayerRigid2D.velocity.y <= 0)){
+				if ((PlatformScript.Trigger == false)&&(PlayerRigid2D.velocity.y <= 0)){
 					OnAir = 0;
 				}
 			break;
 			
 			case "Enemy":
 				if ((other.name == "ctw_Bullet(Clone)")&&(Invincible == 0)){
-					if (other.GetComponent<ctw_Bullet_behavior>().OnWork == true){
+					ctw_Bullet_behavior BulletScript = other.GetComponent<ctw_Bullet_behavior>();
+					if (BulletScript.OnWork == true){
 						if (DEAD != 1) OnDamage();
-						other.GetComponent<ctw_Bullet_behavior>().OnWork = false;
+						BulletScript.Pop = true;
+						BulletScript.OnWork = false;
 					}
 				}
 			break;
@@ -247,6 +249,14 @@ public class ctw_Player_behavior : MonoBehaviour
 			InputAttack();
 			InputMove();
 		}
+		else {
+			OnAttack = 0;
+			PlayerRigid2D.angularDrag = 0.2f;
+			PlayerRigid2D.drag = 0.2f;
+			PlayerRigid2D.gravityScale = 9.8f;
+			PlayerCollider.sharedMaterial = Normal;
+		}
+			
 		
 		OnInvincible();
 		
