@@ -22,7 +22,7 @@ public class ctw_Bullet_behavior : MonoBehaviour
 		
 		Pop = false;
 		BulletTransform = GetComponent<Transform>();
-        BulletCollider = GetComponent<Collider2D>() as Collider2D;
+        BulletCollider = GetComponent<BoxCollider2D>() as Collider2D;
 		BulletRigid2D = GetComponent<Rigidbody2D>();
 		BulletSprite = GetComponent<SpriteRenderer>();
     }
@@ -34,11 +34,11 @@ public class ctw_Bullet_behavior : MonoBehaviour
 		Pop = false;
 	}
 
-	void OnTriggerEnter2D(Collider2D other){
+	void OnTriggerStay2D(Collider2D other){
 		if ((other.tag == "Wall")||(other.tag == "Ground")){
 			StrikeWall();
 		}
-		if ((other.tag == "Eraser")&&(other.GetComponent<ctw_Eraser>().Alpha > 0.1f)){
+		if ((other.tag == "Eraser")&&(other.GetComponent<ctw_Eraser_behavior>().Alpha > 0.01f)){
 			Alpha = 1f;
 			OnWork = false;
 		}

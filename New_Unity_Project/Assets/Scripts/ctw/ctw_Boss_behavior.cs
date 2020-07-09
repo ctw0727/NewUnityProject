@@ -6,32 +6,52 @@ using UnityEngine;
 
 public class ctw_Boss_behavior : MonoBehaviour
 {
+	public float DamageForce;
+	public float MaxHP;
+	public float HP;
+	public float LastHP;
+	public int Invincible = 0;
+	public int DEAD = 0;
 	
-	public bool STUN = false;
 	public GameObject BulletPrefab;
 	
 	Transform PlayerTransform;
 	Rigidbody2D PlayerRigid2D;
 	ctw_Player_behavior PlayerScript;
 	
+	ctw_Camera_behavior CameraScript;
+	
 	Transform BossTransform;
+	SpriteRenderer BossSprite;
+	ctw_Eraser_behavior Eraser;
 	
 	GameObject[] Bullet = new GameObject[250];
+	
 	int BulletPool = 0;
-	
 	int ATTACK = 0;
-	
 	int AttackType = 0;
+	
 	
 	int Time = 0;
 	
+	float AlphaInvincible = 0;
+	
     void Start(){
-        
+		
+        MaxHP = 10000;
+		HP = 10000;
+		LastHP = 10000;
+		
 		PlayerTransform = GameObject.Find("ctw_Player").GetComponent<Transform>();
 		PlayerRigid2D = GameObject.Find("ctw_Player").GetComponent<Rigidbody2D>();
 		PlayerScript = GameObject.Find("ctw_Player").GetComponent<ctw_Player_behavior>();
 		
+		CameraScript = GameObject.Find("ctw_Main Camera").GetComponent<ctw_Camera_behavior>();
+		
 		BossTransform = GetComponent<Transform>();
+		BossSprite = GetComponent<SpriteRenderer>();
+		Eraser = GameObject.Find("ctw_Eraser_Boss").GetComponent<ctw_Eraser_behavior>();
+		
 		InvokeRepeating("Timer_ticker",1f,1f);
     }
 	
@@ -42,9 +62,9 @@ public class ctw_Boss_behavior : MonoBehaviour
 		Time++;
 	}
 	
-	void Timer_STUNCool(){
+	void Timer_InvincibleCool(){
 		
-		STUN = false;
+		Invincible = 0;
 	}
 	
 	void Timer_AttackCool(){
@@ -57,6 +77,43 @@ public class ctw_Boss_behavior : MonoBehaviour
 	float Math_2D_Force(float x, float y){
 		
 		return Mathf.Sqrt(Mathf.Pow(x,2)+Mathf.Pow(y,2));
+	}
+	
+	// Checks
+	
+	public void OnDamage(float Damage){
+		
+		if (Invincible == 0){
+			
+			if (HP > Damage){
+				
+				LastHP = HP;
+				HP -= Damage;
+				AlphaInvincible = 0f;
+				Invincible = 1;
+				Eraser.Alpha = 1f;
+				Invoke("Timer_InvincibleCool",3.0f);
+				CameraScript.CamShake = 1f;
+			}
+			
+			else if (HP != 0) {
+				
+				LastHP = HP;
+				HP = 0;
+				DEAD = 1;
+				Eraser.Alpha = 1f;
+				CameraScript.CamShake = 2f;
+			}
+		}
+	}
+	
+	void OnInvincible(){
+		if (Invincible == 1)
+			AlphaInvincible += 0.1f;
+		else if (DEAD == 1)
+			AlphaInvincible = 1.2f;
+		else
+			AlphaInvincible = 0f;
 	}
 	
 	// Gets
@@ -166,7 +223,7 @@ public class ctw_Boss_behavior : MonoBehaviour
 	
 	void Attack_Melee(){
 		
-		
+		// Is this code important or need?
 	}
 	
 	void Attack_Pattern_0(){
@@ -199,14 +256,27 @@ public class ctw_Boss_behavior : MonoBehaviour
 	
 	// Running
 	
+	void Rendering(){
+		
+		float R = BossSprite.color.r;
+		float G = BossSprite.color.g;
+		float B = BossSprite.color.b;
+		
+		BossSprite.color = new Color(R, G, B, Mathf.Abs((Mathf.Cos(AlphaInvincible))) );
+	}
+	
 	void Attacking(){
-		if (ATTACK == 0){
+		if ((ATTACK == 0)&&(Invincible == 0)){
 			Invoke("Attack_Pattern_"+AttackType.ToString() , 0f);
 		}
 	}
 	
     void Update(){
         
-		Attacking();
+		OnInvincible();
+		
+		if (DEAD == 0) Attacking();
+		
+		Rendering();
     }
 }

@@ -9,6 +9,8 @@ TagManager:
   - Enemy
   - Wall
   - Eraser
+  - Bullet
+  - Effectors
   layers:
   - Default
   - TransparentFX

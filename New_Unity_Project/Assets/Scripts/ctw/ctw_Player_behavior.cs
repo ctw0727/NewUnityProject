@@ -11,7 +11,9 @@ public class ctw_Player_behavior : MonoBehaviour
 	Collider2D PlayerCollider;
 	SpriteRenderer PlayerSprite;
 	
-	ctw_Eraser Eraser;
+	ctw_Eraser_behavior Eraser;
+	
+	ctw_Camera_behavior CameraScript;
 	
 	public PhysicsMaterial2D Normal;
 	public PhysicsMaterial2D Bouncy;
@@ -34,9 +36,11 @@ public class ctw_Player_behavior : MonoBehaviour
 		PlayerCollider = GetComponent<PolygonCollider2D>() as Collider2D;
 		PlayerSprite = GetComponent<SpriteRenderer>();
 		
-		Eraser = GameObject.Find("ctw_Eraser_Obj").GetComponent<ctw_Eraser>();
+		Eraser = GameObject.Find("ctw_Eraser_Player").GetComponent<ctw_Eraser_behavior>();
 		
 		MainCamera = GameObject.Find("ctw_Main Camera").GetComponent<Camera>();
+		
+		CameraScript = MainCamera.GetComponent<ctw_Camera_behavior>();
     }
 	
 	// Maths
@@ -44,6 +48,11 @@ public class ctw_Player_behavior : MonoBehaviour
 	float Math_2D_Force(float x, float y){
 		
 		return Mathf.Sqrt(Mathf.Pow(x,2)+Mathf.Pow(y,2));
+	}
+	
+	float Math_Boss_Damage(){
+		
+		return Mathf.Abs((PlayerRigid2D.angularVelocity * Math_2D_Force(PlayerRigid2D.velocity.x, PlayerRigid2D.velocity.y) / 75f));
 	}
 	
 	// Timers
@@ -85,10 +94,12 @@ public class ctw_Player_behavior : MonoBehaviour
 			Invincible = 1;
 			Eraser.Alpha = 1f;
 			Invoke("TimerInvincibleReset",3.0f);
+			CameraScript.CamShake = 0.5f;
 		}
 		else if (HP == 1){
 			HP = 0;
 			DEAD = 1;
+			CameraScript.CamShake = 1f;
 		}
 	}
 	
@@ -204,8 +215,8 @@ public class ctw_Player_behavior : MonoBehaviour
 				}
 			break;
 			
-			case "Enemy":
-				if ((other.name == "ctw_Bullet(Clone)")&&(Invincible == 0)){
+			case "Bullet":
+				if (Invincible == 0){
 					ctw_Bullet_behavior BulletScript = other.GetComponent<ctw_Bullet_behavior>();
 					if (BulletScript.OnWork == true){
 						if (DEAD != 1) OnDamage();
@@ -240,6 +251,12 @@ public class ctw_Player_behavior : MonoBehaviour
 		
 		if ((OnAttack != 2)&&(other.collider.name == "ctw_Boss")&&(Invincible == 0))
 			if (DEAD != 1) OnDamage();
+		
+		if ((OnAttack == 2)&&(other.collider.name == "ctw_Boss")){
+			
+			ctw_Boss_behavior BossScript = other.collider.GetComponent<ctw_Boss_behavior>();
+			BossScript.OnDamage(Math_Boss_Damage());
+		}
 		
 		TimerAttackReset();
 	}
