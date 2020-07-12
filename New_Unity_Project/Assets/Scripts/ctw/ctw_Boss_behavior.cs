@@ -28,11 +28,8 @@ public class ctw_Boss_behavior : MonoBehaviour
 	GameObject[] Bullet = new GameObject[250];
 	
 	int BulletPool = 0;
-	int ATTACK = 0;
+	int ATTACK = 1;
 	int AttackType = 0;
-	
-	
-	int Time = 0;
 	
 	float AlphaInvincible = 0;
 	
@@ -52,15 +49,10 @@ public class ctw_Boss_behavior : MonoBehaviour
 		BossSprite = GetComponent<SpriteRenderer>();
 		Eraser = GameObject.Find("ctw_Eraser_Boss").GetComponent<ctw_Eraser_behavior>();
 		
-		InvokeRepeating("Timer_ticker",1f,1f);
+		Invoke("Timer_AttackCool",1f);
     }
 	
 	// Timers
-	
-	void Timer_ticker(){
-		
-		Time++;
-	}
 	
 	void Timer_InvincibleCool(){
 		
@@ -89,10 +81,14 @@ public class ctw_Boss_behavior : MonoBehaviour
 				
 				LastHP = HP;
 				HP -= Damage;
+				AttackType = 0;
+				ATTACK = 0;
 				AlphaInvincible = 0f;
 				Invincible = 1;
 				Eraser.Alpha = 1f;
 				Invoke("Timer_InvincibleCool",3.0f);
+				CancelInvoke("Timer_AttackCool");
+				CancelInvoke("PatternUpdate");
 				CameraScript.CamShake = 1f;
 			}
 			
@@ -123,7 +119,6 @@ public class ctw_Boss_behavior : MonoBehaviour
 		Vector3 BossPos = BossTransform.position;
 		
 		return ( Mathf.Atan2(Pos.y-BossPos.y, Pos.x-BossPos.x) * Mathf.Rad2Deg );
-		
 	}
 	
 	Vector2 Get_Force_Direction(){
@@ -148,15 +143,11 @@ public class ctw_Boss_behavior : MonoBehaviour
 	
 	Vector3 Get_Vector3_Direction(Vector3 Pos){
 		
-		Vector3 PlayerPos = Pos;
-		Vector3 BossPos = BossTransform.position;
-		Vector3 PlayerPrivatePos = PlayerPos - BossPos;
+		float RangeKey = Math_2D_Force(Pos.x,Pos.y);
 		
-		float RangeKey = Math_2D_Force(PlayerPrivatePos.x,PlayerPrivatePos.y);
+		Pos = Pos/RangeKey;
 		
-		PlayerPrivatePos = PlayerPrivatePos/RangeKey;
-		
-		Vector3 VectorDirection = new Vector3(PlayerPrivatePos.x,PlayerPrivatePos.y,0);
+		Vector3 VectorDirection = new Vector3(Pos.x,Pos.y,0);
 		
 		return VectorDirection;
 	}
@@ -205,7 +196,7 @@ public class ctw_Boss_behavior : MonoBehaviour
 		return Bullet[i];
 	}
 	
-	void Attack_SetBullet(float Force,Vector3 Target,Quaternion rotation){
+	void Attack_SetBullet(float Force,Vector3 Target,Quaternion rotation, float Timer_t, float roll){
 		
 		GameObject Bullet = Attack_CheckandReturn();
 		Vector3 BossPos = BossTransform.position;
@@ -217,9 +208,18 @@ public class ctw_Boss_behavior : MonoBehaviour
 		BulletTransform.rotation = rotation;
 		BulletScript.Vel = Get_Vector3_Direction(Target)*Force;
 		BulletScript.OnWork = true;
+		BulletScript.Timer = Timer_t;
+		BulletScript.Roll = roll;
 	}
 	
 	// Attack Patterns
+	
+	void PatternUpdate(){
+		
+		if (AttackType < 2) AttackType++;
+		else AttackType = 0;
+		CancelInvoke("PatternUpdate");
+	}
 	
 	void Attack_Melee(){
 		
@@ -228,29 +228,42 @@ public class ctw_Boss_behavior : MonoBehaviour
 	
 	void Attack_Pattern_0(){
 		
+		Invoke("PatternUpdate",4f);
+		
 		float angle = Get_angle_toPosition(PlayerTransform.position);
-		Attack_SetBullet(30f,Get_Target_AngleToPos(angle),Quaternion.AngleAxis(angle, Vector3.forward));
-		Attack_SetBullet(30f,Get_Target_AngleToPos(angle+7),Quaternion.AngleAxis(angle+7, Vector3.forward));
-		Attack_SetBullet(30f,Get_Target_AngleToPos(angle-7),Quaternion.AngleAxis(angle-7, Vector3.forward));
+		Attack_SetBullet(30f, Get_Target_AngleToPos(angle), Quaternion.AngleAxis(angle, Vector3.forward), 0f, 0f);
+		Attack_SetBullet(30f, Get_Target_AngleToPos(angle+7), Quaternion.AngleAxis(angle+7, Vector3.forward), 0f, 0f);
+		Attack_SetBullet(30f, Get_Target_AngleToPos(angle-7), Quaternion.AngleAxis(angle-7, Vector3.forward), 0f, 0f);
 		ATTACK = 1;
 		Invoke("Timer_AttackCool",0.8f);
-		if (Time >= 4){
-			AttackType = 1;
-			Time = 0;
-		}
 	}
 	
 	void Attack_Pattern_1(){
+		
+		Invoke("PatternUpdate",3f);
+		
+		float randomi = Random.Range(0f,20f);
+		float randomj = Random.Range(-1.0f,1.0f);
+		randomj = randomj/Mathf.Abs(randomj);
 		for(float i = -180; i<180; i+=20){
-			Attack_SetBullet(20f,Get_Target_AngleToPos(i),Quaternion.AngleAxis(i, Vector3.forward));
-			Attack_SetBullet(16f,Get_Target_AngleToPos(i-10),Quaternion.AngleAxis(i-10, Vector3.forward));
+			Attack_SetBullet(20f, Get_Target_AngleToPos(i+randomi), Quaternion.AngleAxis(i+randomi, Vector3.forward), 0f, -0.4f*randomj);
+			Attack_SetBullet(15f, Get_Target_AngleToPos(i-10+randomi), Quaternion.AngleAxis(i-10+randomi, Vector3.forward), 0f, 0.4f*randomj);
 		}
 		ATTACK = 1;
 		Invoke("Timer_AttackCool",1.0f);
-		if (Time >= 3){
-			AttackType = 0;
-			Time = 0;
+	}
+	
+	void Attack_Pattern_2(){
+		
+		Invoke("PatternUpdate",5f);
+		float randomi = Random.Range(0f,9f);
+		
+		for(float i = 0; i<360; i+=10){
+			Attack_SetBullet(10f, Get_Target_AngleToPos(i+randomi), Quaternion.AngleAxis(i+randomi, Vector3.forward), i, 0f);
+			Attack_SetBullet(10f, Get_Target_AngleToPos(180+i+randomi), Quaternion.AngleAxis(180+i+randomi, Vector3.forward), i, 0f);
 		}
+		ATTACK = 1;
+		Invoke("Timer_AttackCool",5f);
 	}
 	
 	
@@ -272,7 +285,6 @@ public class ctw_Boss_behavior : MonoBehaviour
 	}
 	
     void Update(){
-        
 		OnInvincible();
 		
 		if (DEAD == 0) Attacking();

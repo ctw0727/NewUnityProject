@@ -32,8 +32,8 @@ public class ctw_Healthbar_behavior : MonoBehaviour
 			
 			case "ctw_HealthBar_Yellow":
 				SelfImage.fillAmount = LastHP;
-				if (Boss.LastHP > Boss.HP) Boss.LastHP -= Mathf.Pow((Boss.LastHP / Boss.HP)*2,3);
-				if (Boss.LastHP <= Boss.HP) Boss.LastHP = Boss.HP;
+				if (Boss.LastHP > Boss.HP) Boss.LastHP -= (Boss.LastHP - Boss.HP)/50 + 2;
+				if (Boss.LastHP <= Boss.HP+25) Boss.LastHP = Boss.HP;
 			break;
 		}
     }

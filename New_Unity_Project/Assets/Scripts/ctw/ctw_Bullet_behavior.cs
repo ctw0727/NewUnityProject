@@ -14,6 +14,8 @@ public class ctw_Bullet_behavior : MonoBehaviour
 	
 	public bool OnWork = true;
 	public Vector3 Vel = new Vector3(0,0,0);
+	public float Timer = 0f;
+	public float Roll = 0f;
 	
 	public bool Pop;
 	float Alpha = 1f;
@@ -26,6 +28,20 @@ public class ctw_Bullet_behavior : MonoBehaviour
 		BulletRigid2D = GetComponent<Rigidbody2D>();
 		BulletSprite = GetComponent<SpriteRenderer>();
     }
+	
+	float Math_Force(Vector3 Velocity){
+		
+		return Mathf.Sqrt(Mathf.Pow(Velocity.x,2)+Mathf.Pow(Velocity.y,2));
+	}
+	
+	Vector3 Get_Vector3_Direction(float angle){
+		
+		Vector3 Pos = new Vector3(Mathf.Cos(angle*Mathf.Deg2Rad), Mathf.Sin(angle*Mathf.Deg2Rad), 0); 
+		
+		Vector3 VectorDirection = new Vector3(Pos.x,Pos.y,0);
+		
+		return VectorDirection;
+	}
 	
 	void StrikeWall(){
 		
@@ -44,7 +60,21 @@ public class ctw_Bullet_behavior : MonoBehaviour
 		}
 	}
 	
+	void Timing(){
+		if (Timer > 0){
+			Timer -= 1;
+		}
+		else{
+			Timer = 0;
+		}
+	}
+	
 	void Rendering(){
+		
+		BulletRigid2D.rotation = BulletRigid2D.rotation + Roll;
+		
+		float Force = Math_Force(Vel);
+		float Angle = BulletRigid2D.rotation;
 		
 		float R = BulletSprite.color.r;
 		float G = BulletSprite.color.g;
@@ -53,12 +83,15 @@ public class ctw_Bullet_behavior : MonoBehaviour
 		switch(OnWork) {
 			
 			case true:
-				Alpha = 1f;
-				
-				BulletSprite.sprite = spriteBullet;
-				BulletSprite.color = new Color(R, G, B, 1f);
-				BulletRigid2D.velocity = Vel;
-				BulletTransform.localScale = new Vector2(1f , 0.5f);
+				if (Timer == 0){
+					Alpha = 1f;
+					
+					BulletSprite.sprite = spriteBullet;
+					BulletSprite.color = new Color(R, G, B, 1f);
+					
+					BulletRigid2D.velocity = Get_Vector3_Direction(Angle) * Force;
+					BulletTransform.localScale = new Vector2(1f , 0.5f);
+				}
 			break;
 			
 			case false:
@@ -88,6 +121,7 @@ public class ctw_Bullet_behavior : MonoBehaviour
 	
     void Update(){
 		
+		Timing();
         Rendering();
     }
 }
