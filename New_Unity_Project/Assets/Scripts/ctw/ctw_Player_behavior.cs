@@ -217,12 +217,9 @@ public class ctw_Player_behavior : MonoBehaviour
 			
 			case "Bullet":
 				if (Invincible == 0){
-					ctw_Bullet_behavior BulletScript = other.GetComponent<ctw_Bullet_behavior>();
-					if (BulletScript.OnWork == true){
-						if (DEAD != 1) OnDamage();
-						BulletScript.Pop = true;
-						BulletScript.OnWork = false;
-					}
+					ctw_Bullet_Collider_Script BulletScript = other.GetComponent<ctw_Bullet_Collider_Script>();
+					if (DEAD != 1) OnDamage();
+					BulletScript.Hitted();
 				}
 			break;
 			

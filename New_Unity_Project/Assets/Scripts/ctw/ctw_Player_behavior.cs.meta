@@ -4,7 +4,8 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - PlayerPhysics: {fileID: 6200000, guid: 90cbc8f6e1cfa454980ff6f7d401771f, type: 2}
+  - Normal: {fileID: 6200000, guid: 90cbc8f6e1cfa454980ff6f7d401771f, type: 2}
+  - Bouncy: {fileID: 6200000, guid: 8da0d72db1317cc42a53d74af1e14b20, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

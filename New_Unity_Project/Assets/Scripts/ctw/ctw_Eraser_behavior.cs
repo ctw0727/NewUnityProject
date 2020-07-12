@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ctw_Eraser_behavior : MonoBehaviour
 {
-	public float Alpha;
+	public float Alpha = 0f;
 	
 	SpriteRenderer SelfSprite;
 	Transform SelfTransform;
@@ -16,8 +17,6 @@ public class ctw_Eraser_behavior : MonoBehaviour
 	ctw_Boss_behavior BossScript;
 	
     void Start(){
-		
-		Alpha = 0f;
 		
         SelfSprite = GetComponent<SpriteRenderer>();
 		SelfTransform = GetComponent<Transform>();
@@ -44,8 +43,8 @@ public class ctw_Eraser_behavior : MonoBehaviour
 			
 			SelfTransform.position = PlayerTransform.position;
 			SelfSprite.color = new Color(1,1,1,Alpha);
-			SelfTransform.localScale = new Vector2( (2f - 2f*Alpha) , (2f - 2f*Alpha) );
-			SelfCollider.radius = 2.34f*(2f - 2f*Alpha);
+			SelfTransform.localScale = new Vector2( (50f - 50f*Alpha) , (50f - 50f*Alpha) );
+			SelfCollider.radius = 2.34f*(50f - 50f*Alpha);
 		}
 		
 		else {

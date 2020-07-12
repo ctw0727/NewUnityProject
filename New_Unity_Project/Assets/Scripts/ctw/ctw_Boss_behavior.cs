@@ -25,9 +25,9 @@ public class ctw_Boss_behavior : MonoBehaviour
 	SpriteRenderer BossSprite;
 	ctw_Eraser_behavior Eraser;
 	
-	GameObject[] Bullet = new GameObject[250];
+	public GameObject[] Bullet = new GameObject[250];
+	public int BulletPool = 0;
 	
-	int BulletPool = 0;
 	int ATTACK = 1;
 	int AttackType = 0;
 	
@@ -259,8 +259,10 @@ public class ctw_Boss_behavior : MonoBehaviour
 		float randomi = Random.Range(0f,9f);
 		
 		for(float i = 0; i<360; i+=10){
-			Attack_SetBullet(10f, Get_Target_AngleToPos(i+randomi), Quaternion.AngleAxis(i+randomi, Vector3.forward), i, 0f);
-			Attack_SetBullet(10f, Get_Target_AngleToPos(180+i+randomi), Quaternion.AngleAxis(180+i+randomi, Vector3.forward), i, 0f);
+			Attack_SetBullet(20f, Get_Target_AngleToPos(i+randomi), Quaternion.AngleAxis(i+randomi, Vector3.forward), i, 0f);
+			Attack_SetBullet(20f, Get_Target_AngleToPos(90+i+randomi), Quaternion.AngleAxis(90+i+randomi, Vector3.forward), i, 0f);
+			Attack_SetBullet(20f, Get_Target_AngleToPos(180+i+randomi), Quaternion.AngleAxis(180+i+randomi, Vector3.forward), i, 0f);
+			Attack_SetBullet(20f, Get_Target_AngleToPos(270+i+randomi), Quaternion.AngleAxis(270+i+randomi, Vector3.forward), i, 0f);
 		}
 		ATTACK = 1;
 		Invoke("Timer_AttackCool",5f);
