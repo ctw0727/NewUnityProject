@@ -12,19 +12,18 @@ public class kmg_player_behaviour : MonoBehaviour
 	public int attempt;
 	
 	// Start is called before the first frame update
-    void Start()
-    {
+	void Start()
+	{
 		spawnpoint = new Vector3(-7.5f, -3f, 0f);
 		maxSpeed = 5f;
 		accel = 0.5f;
 		attempt = 1;
 		
 		rb2D = gameObject.GetComponent<Rigidbody2D>();
-        transform.position = spawnpoint;
-    }
-
-    // Update is called once per frame
-	void Update()
+		transform.position = spawnpoint;
+	}
+	
+	void Operation()
 	{
 		if(Input.GetKey(KeyCode.A))
 		{
@@ -52,8 +51,10 @@ public class kmg_player_behaviour : MonoBehaviour
 			attempt++;
 		}
 	}
+	
+	// Update is called once per frame
+	void Update()
+	{
+		Operation();
+	}
 }
-
-// 좌우로 움직이는 키는 a, d
-// 점프는 스페이스바
-// 공이 너무 위로 올라가서 통제할 수 없을 경우 r키를 눌러 리셋
