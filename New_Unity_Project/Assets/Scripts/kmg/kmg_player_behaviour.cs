@@ -4,25 +4,56 @@ using UnityEngine;
 
 public class kmg_player_behaviour : MonoBehaviour
 {
-    // Start is called before the first frame update
+	private Rigidbody2D rb2D;
+	
+	public Vector3 spawnpoint;
+	public float maxSpeed;
+	public float accel;
+	public int attempt;
+	
+	// Start is called before the first frame update
     void Start()
     {
-        
+		spawnpoint = new Vector3(-7.5f, -3f, 0f);
+		maxSpeed = 5f;
+		accel = 0.5f;
+		attempt = 1;
+		
+		rb2D = gameObject.GetComponent<Rigidbody2D>();
+        transform.position = spawnpoint;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKey(KeyCode.W))
-			transform.position = transform.position + new Vector3(0f, 0.1f, 0f);
-		
+	void Update()
+	{
 		if(Input.GetKey(KeyCode.A))
-			transform.position = transform.position + new Vector3(-0.1f, 0f, 0f);
-		
-		if(Input.GetKey(KeyCode.S))
-			transform.position = transform.position + new Vector3(0f, -0.1f, 0f);
+		{
+			if(rb2D.velocity.x <= -maxSpeed)
+				rb2D.velocity = new Vector2(-maxSpeed, rb2D.velocity[1]);
+			
+			rb2D.velocity += new Vector2(-accel, 0f);
+		}
 		
 		if(Input.GetKey(KeyCode.D))
-			transform.position = transform.position + new Vector3(0.1f, 0f, 0f);
-    }
+		{
+			if(rb2D.velocity.x >= maxSpeed)
+				rb2D.velocity = new Vector2(maxSpeed, rb2D.velocity[1]);
+			
+			rb2D.velocity += new Vector2(accel, 0f);
+		}
+		
+		if(Input.GetKeyDown(KeyCode.Space))
+			rb2D.velocity = new Vector2(rb2D.velocity[0], 10.0f);
+		
+		if(transform.position.y <= -10f || Input.GetKeyDown(KeyCode.R))
+		{
+			transform.position = spawnpoint;
+			rb2D.velocity = new Vector2(0f, 0f);
+			attempt++;
+		}
+	}
 }
+
+// 좌우로 움직이는 키는 a, d
+// 점프는 스페이스바
+// 공이 너무 위로 올라가서 통제할 수 없을 경우 r키를 눌러 리셋
