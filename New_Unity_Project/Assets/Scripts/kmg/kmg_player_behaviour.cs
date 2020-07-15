@@ -14,9 +14,9 @@ public class kmg_player_behaviour : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
-		spawnpoint = new Vector3(-7.5f, -3f, 0f);
-		maxSpeed = 5f;
-		accel = 0.5f;
+		spawnpoint = new Vector3(-13.5f, -6.5f, 0f);
+		maxSpeed = 9f;
+		accel = 0.9f;
 		attempt = 1;
 		
 		rb2D = gameObject.GetComponent<Rigidbody2D>();
@@ -42,9 +42,9 @@ public class kmg_player_behaviour : MonoBehaviour
 		}
 		
 		if(Input.GetKeyDown(KeyCode.Space))
-			rb2D.velocity = new Vector2(rb2D.velocity[0], 10.0f);
+			rb2D.velocity = new Vector2(rb2D.velocity[0], 18.0f);
 		
-		if(transform.position.y <= -10f || Input.GetKeyDown(KeyCode.R))
+		if(transform.position.y <= -15f || Input.GetKeyDown(KeyCode.R))
 		{
 			transform.position = spawnpoint;
 			rb2D.velocity = new Vector2(0f, 0f);
