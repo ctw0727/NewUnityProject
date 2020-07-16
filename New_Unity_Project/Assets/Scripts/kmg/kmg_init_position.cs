@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class kmg_init_position : MonoBehaviour
 {
-	private Rigidbody2D rb2d;
+	Rigidbody2D rb2d;
 	
 	public Vector2 initialRB2DPos;
 	
