@@ -6,6 +6,7 @@ public class kmg_player_behaviour : MonoBehaviour
 {
 	Rigidbody2D rb2D;
 	int attempt;
+	bool jumping;
 	float accel, maxSpeed;
 	
 	public Vector3 spawnpoint;
@@ -16,6 +17,7 @@ public class kmg_player_behaviour : MonoBehaviour
 		maxSpeed = 9f;
 		accel = 0.9f;
 		attempt = 1;
+		jumping = false;
 		
 		rb2D = gameObject.GetComponent<Rigidbody2D>();
 		transform.position = spawnpoint;
@@ -39,9 +41,10 @@ public class kmg_player_behaviour : MonoBehaviour
 			rb2D.velocity += new Vector2(accel, 0f);
 		}
 		
-		if(Input.GetKeyDown(KeyCode.Space))
+		if(Input.GetKeyDown(KeyCode.Space) && !jumping)
 		{
 			rb2D.velocity = new Vector2(rb2D.velocity[0], 18.0f);
+			jumping = true;
 		}
 		
 		if(transform.position.y <= -15f || Input.GetKeyDown(KeyCode.R))
@@ -51,6 +54,12 @@ public class kmg_player_behaviour : MonoBehaviour
 			attempt++;
 			Debug.Log("Attempt count is now " + attempt);
 		}
+	}
+	
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		jumping = false;
+		Debug.Log("Now player can jump");
 	}
 	
 	// Start is called before the first frame update
