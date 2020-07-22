@@ -5,10 +5,7 @@ using UnityEngine;
 public class kmg_moving_LR : MonoBehaviour
 {
 	Rigidbody2D rb2D;
-	BoxCollider2D bc2D;
 	bool move_right;
-	
-	public Vector2 initialRB2DPos;
 	
 	void PathControl()
 	{
@@ -38,8 +35,6 @@ public class kmg_moving_LR : MonoBehaviour
 	void Start()
 	{
 		rb2D = gameObject.GetComponent<Rigidbody2D>();
-		bc2D = gameObject.GetComponent<BoxCollider2D>();
-		rb2D.position = new Vector2(initialRB2DPos.x, initialRB2DPos.y);
 		move_right = true;
 	}
 	

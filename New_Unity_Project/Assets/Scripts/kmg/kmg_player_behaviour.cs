@@ -13,7 +13,7 @@ public class kmg_player_behaviour : MonoBehaviour
 	
 	void Initialize()
 	{
-		spawnpoint = new Vector3(-13.5f, -6.5f, 0f);
+		spawnpoint = new Vector3(-13.5f, -6.5f, spawnpoint.z);
 		maxSpeed = 9f;
 		accel = 0.9f;
 		attempt = 1;
