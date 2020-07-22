@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/ctw_Scene.unity
+- path: Assets/Scenes/kjy2214_Scene.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
