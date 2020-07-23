@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class kmg_trackplayer : MonoBehaviour
 {
-	float size = 5f;
+	float size = 6f;
 	Camera cam;
 	
 	public GameObject player;

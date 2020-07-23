@@ -43,7 +43,7 @@ public class kmg_player_behaviour : MonoBehaviour
 		
 		if(Input.GetKeyDown(KeyCode.Space) && !jumping)
 		{
-			rb2D.velocity = new Vector2(rb2D.velocity[0], 18.0f);
+			rb2D.velocity = new Vector2(rb2D.velocity[0], 16.0f);
 			jumping = true;
 		}
 		
@@ -53,6 +53,13 @@ public class kmg_player_behaviour : MonoBehaviour
 			rb2D.velocity = new Vector2(0f, 0f);
 			attempt++;
 			Debug.Log("Attempt count is now " + attempt);
+		}
+		
+		// 디버그 목적으로 만들어진 if문 (추후 삭제될 예정)
+		if(Input.GetKeyDown(KeyCode.Z))
+		{
+			transform.position = new Vector3(35.5f, -3.5f, transform.position[2]);
+			rb2D.velocity = new Vector2(0f, 0f);
 		}
 	}
 	
