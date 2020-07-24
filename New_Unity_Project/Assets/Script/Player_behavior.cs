@@ -6,6 +6,7 @@ public class Player_behavior : MonoBehaviour
 {
     Rigidbody2D force;
     public GameObject GameOverText;
+    public GameObject Effect;
 
     void Start()
     {
@@ -17,6 +18,11 @@ public class Player_behavior : MonoBehaviour
         if(Input.GetKey(KeyCode.Space))
         {
             force.AddForce(Vector2.up * 1, ForceMode2D.Impulse);
+            Effect.SetActive(true);
+        }
+        else
+        {
+            Effect.SetActive(false);
         }
     }
 
