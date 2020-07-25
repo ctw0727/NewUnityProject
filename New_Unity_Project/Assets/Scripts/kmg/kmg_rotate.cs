@@ -5,7 +5,7 @@ using UnityEngine;
 public class kmg_rotate : MonoBehaviour
 {
 	Rigidbody2D rb2d;
-	float aVel = 120f;
+	float aVel = -120f;
 	
 	// Start is called before the first frame update
 	void Start()

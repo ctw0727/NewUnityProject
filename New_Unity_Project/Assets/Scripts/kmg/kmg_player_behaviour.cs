@@ -5,7 +5,6 @@ using UnityEngine;
 public class kmg_player_behaviour : MonoBehaviour
 {
 	Rigidbody2D rb2D;
-	int attempt;
 	bool jumping;
 	float accel, maxSpeed;
 	
@@ -16,7 +15,6 @@ public class kmg_player_behaviour : MonoBehaviour
 		spawnpoint = new Vector3(-13.5f, -6.5f, spawnpoint.z);
 		maxSpeed = 9f;
 		accel = 0.9f;
-		attempt = 1;
 		jumping = false;
 		
 		rb2D = gameObject.GetComponent<Rigidbody2D>();
@@ -43,7 +41,7 @@ public class kmg_player_behaviour : MonoBehaviour
 		
 		if(Input.GetKeyDown(KeyCode.Space) && !jumping)
 		{
-			rb2D.velocity = new Vector2(rb2D.velocity[0], 16.0f);
+			rb2D.velocity = new Vector2(rb2D.velocity[0], 15.75f);
 			jumping = true;
 		}
 		
@@ -51,22 +49,21 @@ public class kmg_player_behaviour : MonoBehaviour
 		{
 			transform.position = spawnpoint;
 			rb2D.velocity = new Vector2(0f, 0f);
-			attempt++;
-			Debug.Log("Attempt count is now " + attempt);
 		}
 		
 		// 디버그 목적으로 만들어진 if문 (추후 삭제될 예정)
 		if(Input.GetKeyDown(KeyCode.Z))
 		{
-			transform.position = new Vector3(35.5f, -3.5f, transform.position[2]);
+			transform.position = new Vector3(107f, 14.5f, transform.position[2]);
 			rb2D.velocity = new Vector2(0f, 0f);
+			print("Successfully teleported to debug position");
 		}
 	}
 	
+	// 땅에 닿았음을 감지해주는 함수
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		jumping = false;
-		Debug.Log("Now player can jump");
 	}
 	
 	// Start is called before the first frame update
@@ -74,7 +71,6 @@ public class kmg_player_behaviour : MonoBehaviour
 	{
 		Initialize();
 	}
-	
 	
 	// Update is called once per frame
 	void Update()
