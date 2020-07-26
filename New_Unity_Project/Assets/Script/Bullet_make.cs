@@ -41,7 +41,7 @@ public class Bullet_make : MonoBehaviour
     {
         if(Target != null)
         {
-            Vector3 curPosition = Vector3.Lerp(transform.position, Target.position, curPos);
+            Vector3 curPosition = Vector3.Lerp(transform.position, Target.position + Target.right * 15.4f, curPos);
 
             transform.position = curPosition;
         }

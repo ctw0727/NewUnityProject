@@ -5,17 +5,17 @@ using UnityEngine;
 public class Wall_behavior : MonoBehaviour
 {
     Rigidbody2D rigid;
-    float b;
+    float num;
 
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
-        b = Random.Range(0.0f, 10.0f);
+        num = Random.Range(0.0f, 10.0f);
     }
 
     void Update()
     {
-        if(b >= 0.0f && b <= 1.0f)
+        if(num >= 0.0f && num <= 1.0f)
         {
             rigid.rotation += 1.0f;
         }

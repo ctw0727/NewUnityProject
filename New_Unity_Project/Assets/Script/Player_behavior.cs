@@ -28,7 +28,7 @@ public class Player_behavior : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Border" || collision.gameObject.tag == "wall" || collision.gameObject.tag == "bullet")
+        if(collision.gameObject.tag == "wall" || collision.gameObject.tag == "bullet")
         {
             Destroy(gameObject);
             GameOver();
