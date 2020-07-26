@@ -10,16 +10,10 @@ public class kmg_moving_LR : MonoBehaviour
 	void PathControl()
 	{
 		if(rb2D.position.x <= -9.0f)
-		{
-			rb2D.MovePosition(rb2D.position + new Vector2(0.3f, 0f));
 			move_right = true;
-		}
 		
 		else if(rb2D.position.x >= 9.0f)
-		{
-			rb2D.MovePosition(rb2D.position - new Vector2(0.3f, 0f));
 			move_right = false;
-		}
 	}
 	
 	void Move()

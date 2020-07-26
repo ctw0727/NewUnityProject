@@ -18,32 +18,12 @@ public class kmg_camera_behaviour : MonoBehaviour
 		cam.orthographicSize = size;
 	}
 	
-	void FOVcontrol()
-	{
-		// 또하나의 실험적 디버그 if문
-		if(Input.GetKeyDown(KeyCode.X))
-		{
-			switch((int)size)
-			{
-				case 7:
-					size = 14f;
-					break;
-				
-				case 14:
-					size = 7f;
-					break;
-			}
-			
-			cam.orthographicSize = size;
-		}
-	}
-	
 	void Initialize()
 	{
 		playerX = player.transform.position[0];
 		playerY = player.transform.position[1];
 		
-		greenValue = (playerY + 15f) / 45f;
+		greenValue = (playerY + 15f) / 90f;
 		if(greenValue >= 0.7f)
 			greenValue = 0.7f;
 	}
@@ -51,10 +31,9 @@ public class kmg_camera_behaviour : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		FOVcontrol();
 		Initialize();
 		transform.position = new Vector3(playerX, playerY, 0f);
 		cam.backgroundColor = new Color(0f, greenValue, 0f, 1f);
-		// 메인카메라 배경색으로 y좌표를 최대 약 20까지 알 수 있게 하였음
+		// 메인카메라 배경색으로 y좌표를 최대 63까지 알 수 있게 하였음
 	}
 }
