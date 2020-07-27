@@ -12,7 +12,6 @@ public class kmg_player_behaviour : MonoBehaviour
 	
 	void Initialize()
 	{
-		spawnpoint = new Vector3(spawnpoint.x, spawnpoint.y, spawnpoint.z);
 		maxSpeed = 9f;
 		accel = 0.9f;
 		jumping = false;
@@ -49,18 +48,19 @@ public class kmg_player_behaviour : MonoBehaviour
 		{
 			transform.position = spawnpoint;
 			rb2D.velocity = new Vector2(0f, 0f);
+			print("Player position successfully reset");
 		}
 		
 		// 디버그 목적으로 만들어진 if문 (추후 삭제될 예정)
 		if(Input.GetKeyDown(KeyCode.Z))
 		{
-			transform.position = new Vector3(107f, 14.5f, transform.position[2]);
+			transform.position = new Vector3(107f, 16f, transform.position.z);
 			rb2D.velocity = new Vector2(0f, 0f);
 			print("Successfully teleported to debug position");
 		}
 	}
 	
-	// 땅에 닿았음을 감지해주는 함수
+	// 땅에 닿았음을 감지해주는 함수 (일반 바닥은 트리거로 설정되어 있음)
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		jumping = false;
