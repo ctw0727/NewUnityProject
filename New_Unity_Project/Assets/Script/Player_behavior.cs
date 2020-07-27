@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class Player_behavior : MonoBehaviour
 {
-    Rigidbody2D force;
+    public Rigidbody2D force;
     public GameObject GameOverText;
     public GameObject Effect;
+
+    Fuel_manage theFuel;
 
     void Start()
     {
         force = GetComponent<Rigidbody2D>();
+        theFuel = FindObjectOfType<Fuel_manage>();
     }
 
     void Update()
     {
-        if(Input.GetKey(KeyCode.Space))
+        if(Input.GetKey(KeyCode.Space) && theFuel.IsFuel)
         {
             force.AddForce(Vector2.up * 1, ForceMode2D.Impulse);
             Effect.SetActive(true);

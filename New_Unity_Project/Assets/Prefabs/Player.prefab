@@ -143,5 +143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adf8208a6b4360340860bf14436d0284, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  force: {fileID: 0}
   GameOverText: {fileID: 0}
   Effect: {fileID: 0}
