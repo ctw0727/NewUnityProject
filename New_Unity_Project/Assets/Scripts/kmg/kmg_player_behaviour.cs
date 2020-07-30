@@ -48,15 +48,13 @@ public class kmg_player_behaviour : MonoBehaviour
 		{
 			transform.position = spawnpoint;
 			rb2D.velocity = new Vector2(0f, 0f);
-			print("Player position successfully reset");
 		}
 		
 		// 디버그 목적으로 만들어진 if문 (추후 삭제될 예정)
 		if(Input.GetKeyDown(KeyCode.Z))
 		{
-			transform.position = new Vector3(107f, 16f, transform.position.z);
+			transform.position = new Vector3(178f, 36f, transform.position.z);
 			rb2D.velocity = new Vector2(0f, 0f);
-			print("Successfully teleported to debug position");
 		}
 	}
 	

@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class kmg_autojump : MonoBehaviour
 {
-	Rigidbody2D this_rb;
-	BoxCollider2D this_bc;
+	Rigidbody2D thisRB;
+	BoxCollider2D thisBC;
 	
 	public GameObject player;
-	public Rigidbody2D player_rb;
-	public CircleCollider2D player_cc;
+	public Rigidbody2D playerRB;
+	public CircleCollider2D playerCC;
 	
 	// Start is called before the first frame update
 	void Start()
 	{
-		this_rb = gameObject.GetComponent<Rigidbody2D>();
-		this_bc = gameObject.GetComponent<BoxCollider2D>();
+		thisRB = gameObject.GetComponent<Rigidbody2D>();
+		thisBC = gameObject.GetComponent<BoxCollider2D>();
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		if(this_bc.IsTouching(player_cc))
-			player_rb.velocity = new Vector2(player_rb.velocity.x, 24f);
+		if(thisBC.IsTouching(playerCC))
+			playerRB.velocity = new Vector2(playerRB.velocity.x, 24f);
 	}
 }
