@@ -7,7 +7,11 @@ public class Fuel_manage : MonoBehaviour
 {
     [SerializeField] float maxFuel;
     float curFuel;
+
     [SerializeField] Slider slider_JetEngine;
+
+    [SerializeField] float waitRecharge;
+    float curwaitRecharge;
 
     public bool IsFuel{get; private set;}
 
@@ -22,7 +26,7 @@ public class Fuel_manage : MonoBehaviour
     {
         if(GameObject.FindWithTag("Boost"))
         {
-            curFuel -= 1;
+            curFuel -= 0.3f;
             slider_JetEngine.value = curFuel;
 
             if(curFuel <= 0)
@@ -32,12 +36,7 @@ public class Fuel_manage : MonoBehaviour
         }
         else
         {
-            curFuel += 1;
-
-            if(curFuel >= 100)
-            {
-                curFuel = 100;
-            }
+            FuelRecharge();
         }
 
         if(curFuel > 0)
@@ -47,6 +46,25 @@ public class Fuel_manage : MonoBehaviour
         else
         {
             IsFuel = false;
+        }
+    }
+
+    void FuelRecharge()
+    {
+        if(curFuel < maxFuel && curFuel > 0)
+        {
+            curFuel += 0.15f;
+        }
+
+        else if(curFuel <= 0)
+        {
+            curwaitRecharge += Time.deltaTime;
+
+            if(curwaitRecharge >= waitRecharge)
+            {
+                curFuel += 0.15f;
+                curwaitRecharge = 0;
+            }
         }
     }
 }
