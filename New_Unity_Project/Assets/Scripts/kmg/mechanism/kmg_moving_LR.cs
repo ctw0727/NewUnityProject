@@ -7,6 +7,11 @@ public class kmg_moving_LR : MonoBehaviour
 	Rigidbody2D rb2D;
 	bool move_right;
 	
+	[Tooltip("이 블록이 움직이는 길의 왼쪽 끝 x좌표")]
+	public float leftLimit = -9f;
+	[Tooltip("이 블록이 움직이는 길의 오른쪽 끝 x좌표")]
+	public float rightLimit = 9f;
+	
 	void PathControl()
 	{
 		if(rb2D.position.x <= -9.0f)

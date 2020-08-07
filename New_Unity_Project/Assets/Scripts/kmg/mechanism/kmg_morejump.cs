@@ -7,6 +7,7 @@ public class kmg_morejump : MonoBehaviour
 	Rigidbody2D thisRB;
 	SpriteRenderer thisSR;
 	PolygonCollider2D thisPC;
+	AudioSource sound;
 	
 	bool used;
 	float aVel = 180f;
@@ -21,6 +22,7 @@ public class kmg_morejump : MonoBehaviour
 		thisRB = gameObject.GetComponent<Rigidbody2D>();
 		thisSR = gameObject.GetComponent<SpriteRenderer>();
 		thisPC = gameObject.GetComponent<PolygonCollider2D>();
+		sound = gameObject.GetComponent<AudioSource>();
 		
 		thisRB.angularVelocity = aVel;
 		thisSR.color = Color.red;
@@ -36,6 +38,7 @@ public class kmg_morejump : MonoBehaviour
 			{
 				Destroy(GetComponent<PolygonCollider2D>());
 				thisSR.color = new Color(1f, 0f, 0f, 0.1f);
+				sound.Play();
 				used = true;
 			}
 		}

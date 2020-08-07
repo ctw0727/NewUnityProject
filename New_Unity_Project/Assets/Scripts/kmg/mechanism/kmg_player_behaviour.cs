@@ -5,9 +5,11 @@ using UnityEngine;
 public class kmg_player_behaviour : MonoBehaviour
 {
 	Rigidbody2D rb2D;
+	AudioSource sound;
 	bool jumping;
 	float accel, maxSpeed;
 	
+	[Tooltip("이 플레이어의 최초 시작 지점")]
 	public Vector3 spawnpoint;
 	
 	void Initialize()
@@ -17,6 +19,7 @@ public class kmg_player_behaviour : MonoBehaviour
 		jumping = false;
 		
 		rb2D = gameObject.GetComponent<Rigidbody2D>();
+		sound = gameObject.GetComponent<AudioSource>();
 		transform.position = spawnpoint;
 	}
 	
@@ -41,6 +44,7 @@ public class kmg_player_behaviour : MonoBehaviour
 		if(Input.GetKeyDown(KeyCode.Space) && !jumping)
 		{
 			rb2D.velocity = new Vector2(rb2D.velocity[0], 15.75f);
+			sound.Play();
 			jumping = true;
 		}
 		
@@ -51,7 +55,10 @@ public class kmg_player_behaviour : MonoBehaviour
 		}
 		
 		if(Input.GetKeyDown(KeyCode.Z))
-			transform.position = new Vector3(270f, 44f, transform.position.z);
+		{
+			transform.position = new Vector3(178f, 36f, transform.position.z);
+			rb2D.velocity = new Vector2(0f, 0f);
+		}
 	}
 	
 	// 땅에 닿았음을 감지해주는 함수
