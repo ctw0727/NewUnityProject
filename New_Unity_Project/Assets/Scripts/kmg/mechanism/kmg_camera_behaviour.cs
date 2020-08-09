@@ -27,12 +27,21 @@ public class kmg_camera_behaviour : MonoBehaviour
 		if(greenValue >= 0.7f)
 			greenValue = 0.7f;
 	}
-
+	
+	void CameraControl()
+	{
+		if(playerY <= -3f)
+			transform.position = new Vector3(playerX, -3f, 0f);
+		
+		else
+			transform.position = new Vector3(playerX, playerY, 0f);
+	}
+	
 	// Update is called once per frame
 	void Update()
 	{
 		Initialize();
-		transform.position = new Vector3(playerX, playerY, 0f);
+		CameraControl();
 		cam.backgroundColor = new Color(0f, greenValue, 0f, 1f);
 		// 메인카메라의 배경색으로 플레이어의 y좌표를 최대 90까지 알 수 있음
 	}

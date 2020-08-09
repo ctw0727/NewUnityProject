@@ -14,20 +14,20 @@ public class kmg_moving_LR : MonoBehaviour
 	
 	void PathControl()
 	{
-		if(rb2D.position.x <= -9.0f)
+		if(rb2D.position.x <= leftLimit)
 			move_right = true;
 		
-		else if(rb2D.position.x >= 9.0f)
+		else if(rb2D.position.x >= rightLimit)
 			move_right = false;
 	}
 	
 	void Move()
 	{
 		if(move_right)
-			rb2D.velocity = new Vector2(7.0f, 0f);
+			rb2D.velocity = new Vector2(7f, 0f);
 		
 		else
-			rb2D.velocity = new Vector2(-7.0f, 0f);
+			rb2D.velocity = new Vector2(-7f, 0f);
 	}
 
 	// Start is called before the first frame update
