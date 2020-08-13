@@ -7,11 +7,21 @@ public class Score : MonoBehaviour
 {
     public Text scoreText;
     float score;
-
+    public int ano;
+    float bno;
+    public GameObject wallrenderer;
+    
     void Update()
-    {
+    { 
         score += Time.deltaTime;
+        bno += Time.deltaTime;
+        ano = Mathf.RoundToInt(bno);
         scoreText.text = score.ToString("N0") + "M";
+
+        if(ano % 30 == 0 && ano > 0)
+        {
+            wallrenderer.SetActive(false);
+        }
 
         if(!GameObject.FindWithTag("Player"))
         {

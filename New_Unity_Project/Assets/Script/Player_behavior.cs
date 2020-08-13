@@ -16,11 +16,11 @@ public class Player_behavior : MonoBehaviour
         theFuel = FindObjectOfType<Fuel_manage>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if(Input.GetKey(KeyCode.Space) && theFuel.IsFuel)
         {
-            force.AddForce(Vector2.up * 1, ForceMode2D.Impulse);
+            force.AddForce(Vector2.up * 3, ForceMode2D.Impulse);
             Effect.SetActive(true);
         }
         else

@@ -24,10 +24,12 @@ public class Fuel_manage : MonoBehaviour
 
     void Update()
     {
+        slider_JetEngine.value = curFuel;
+
         if(GameObject.FindWithTag("Boost"))
         {
             curFuel -= 0.3f;
-            slider_JetEngine.value = curFuel;
+            
 
             if(curFuel <= 0)
             {
@@ -53,7 +55,7 @@ public class Fuel_manage : MonoBehaviour
     {
         if(curFuel < maxFuel && curFuel > 0)
         {
-            curFuel += 0.15f;
+            curFuel += 0.1f;
         }
 
         else if(curFuel <= 0)
@@ -62,7 +64,7 @@ public class Fuel_manage : MonoBehaviour
 
             if(curwaitRecharge >= waitRecharge)
             {
-                curFuel += 0.15f;
+                curFuel += 0.1f;
                 curwaitRecharge = 0;
             }
         }

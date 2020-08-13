@@ -11,9 +11,9 @@ public class Bullet_behavior : MonoBehaviour
         rig = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        rig.velocity = new Vector2(-15, 0);
+        rig.velocity = new Vector2(-20, 0);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
