@@ -59,6 +59,12 @@ public class kmg_player_behaviour : MonoBehaviour
 			transform.position = new Vector3(178f, 36f, transform.position.z);
 			rb2D.velocity = new Vector2(0f, 0f);
 		}
+		
+		if(Input.GetKeyDown(KeyCode.X))
+		{
+			transform.position = new Vector3(370f, 56f, transform.position.z);
+			rb2D.velocity = new Vector2(0f, 0f);
+		}
 	}
 	
 	// 땅에 닿았음을 감지해주는 함수

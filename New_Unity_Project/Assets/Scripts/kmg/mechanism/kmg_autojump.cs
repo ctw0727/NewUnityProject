@@ -36,7 +36,7 @@ public class kmg_autojump : MonoBehaviour
 			}
 		}
 		
-		if(sound.timeSamples >= 8670)
+		if(sound.timeSamples >= 8000)
 			playing = false;
 	}
 }
