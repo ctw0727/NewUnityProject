@@ -5,7 +5,6 @@ using UnityEngine;
 public class Player_behavior : MonoBehaviour
 {
     public Rigidbody2D force;
-    public GameObject GameOverText;
     public GameObject Effect;
 
     Fuel_manage theFuel;
@@ -34,12 +33,6 @@ public class Player_behavior : MonoBehaviour
         if(collision.gameObject.tag == "wall" || collision.gameObject.tag == "bullet")
         {
             Destroy(gameObject);
-            GameOver();
         }
-    }
-
-    void GameOver()
-    {
-        GameOverText.SetActive(true);
     }
 }

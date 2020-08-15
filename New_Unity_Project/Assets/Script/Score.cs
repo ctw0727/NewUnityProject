@@ -10,6 +10,7 @@ public class Score : MonoBehaviour
     public int ano;
     float bno;
     public GameObject wallrenderer;
+    public GameObject GameOverText;
     
     void Update()
     { 
@@ -26,6 +27,7 @@ public class Score : MonoBehaviour
         if(!GameObject.FindWithTag("Player"))
         {
             score -= Time.deltaTime;
+            GameOverText.SetActive(true);
         }
     }
 }

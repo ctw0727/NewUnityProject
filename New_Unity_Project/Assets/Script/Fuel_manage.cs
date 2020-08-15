@@ -28,7 +28,7 @@ public class Fuel_manage : MonoBehaviour
 
         if(GameObject.FindWithTag("Boost"))
         {
-            curFuel -= 0.3f;
+            curFuel -= 0.4f;
             
 
             if(curFuel <= 0)
