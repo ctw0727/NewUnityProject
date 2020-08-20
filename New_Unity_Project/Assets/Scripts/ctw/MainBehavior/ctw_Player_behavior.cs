@@ -255,7 +255,7 @@ public class ctw_Player_behavior : MonoBehaviour
 			case "Bullet":
 				if (Invincible == 0){
 					ctw_Bullet_Collider_Script BulletScript = other.GetComponent<ctw_Bullet_Collider_Script>();
-					if (DEAD != 1) {
+					if ((DEAD != 1)&&(BulletScript.OnWork == true)) {
 						GenEffect(Get_Angle_byPosition(PlayerTransform.position, other.GetComponent<Transform>().position)+35f, 15f, 1f, 3);
 						GenEffect(Get_Angle_byPosition(PlayerTransform.position, other.GetComponent<Transform>().position)-35f, 15f, 1f, 3);
 						OnDamage();

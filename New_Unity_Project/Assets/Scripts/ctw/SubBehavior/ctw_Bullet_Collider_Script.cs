@@ -67,6 +67,10 @@ public class ctw_Bullet_Collider_Script : MonoBehaviour
 		if ( (Eraser1.Alpha != 0f)||(Eraser2.Alpha != 0f) ) OnWork = false;
 		else OnWork = true;
 		
+		if (Boss.DEAD == 1){
+			OnWork = false;
+		}
+		
 		if (TargetBullet != null){
 			BulletTransform.position = TargetBullet.GetComponent<Transform>().position;
 			BulletRigid2D.rotation = TargetBullet.GetComponent<Rigidbody2D>().rotation;
