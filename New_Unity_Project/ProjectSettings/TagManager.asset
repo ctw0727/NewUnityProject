@@ -9,6 +9,7 @@ TagManager:
   - Border
   - Boost
   - wallrenderer
+  - Speedcoin
   layers:
   - Default
   - TransparentFX

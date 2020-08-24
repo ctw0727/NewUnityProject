@@ -9,10 +9,13 @@ public class Player_behavior : MonoBehaviour
 
     Fuel_manage theFuel;
 
+    Score num0;
+
     void Start()
     {
         force = GetComponent<Rigidbody2D>();
         theFuel = FindObjectOfType<Fuel_manage>();
+        num0 = GameObject.Find("ScoreText").GetComponent<Score>();
     }
 
     void FixedUpdate()
@@ -33,6 +36,10 @@ public class Player_behavior : MonoBehaviour
         if(collision.gameObject.tag == "wall" || collision.gameObject.tag == "bullet")
         {
             Destroy(gameObject);
+        }
+        else if(collision.gameObject.tag == "Speedcoin")
+        {
+            num0.bno = 10f;
         }
     }
 }

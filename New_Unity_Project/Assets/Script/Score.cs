@@ -8,7 +8,7 @@ public class Score : MonoBehaviour
     public Text scoreText;
     float score;
     public int ano;
-    float bno;
+    public float bno;
     public GameObject wallrenderer;
     public GameObject GameOverText;
     
