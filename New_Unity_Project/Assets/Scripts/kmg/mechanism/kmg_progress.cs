@@ -24,5 +24,6 @@ public class kmg_progress : MonoBehaviour
 		else if(progress >= 100f) progress = 100f;
 		
 		showing.text = "현재 진행률: " + progress.ToString("F1") + "%";
+		showing.color = Color.Lerp(Color.red, Color.yellow, progress/100f);
 	}
 }

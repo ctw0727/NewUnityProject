@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class kmg_camera_behaviour : MonoBehaviour
 {
-	float greenValue, size = 9f;
+	float colorValue, size = 9f;
 	float playerX, playerY;
 	Camera cam;
 	
@@ -23,9 +23,9 @@ public class kmg_camera_behaviour : MonoBehaviour
 		playerX = player.transform.position[0];
 		playerY = player.transform.position[1];
 		
-		greenValue = (playerY + 15f) / 150f;
-		if(greenValue >= 0.7f)
-			greenValue = 0.7f;
+		colorValue = (playerY + 15f) / 150f;
+		if(colorValue >= 1f)
+			colorValue = 1f;
 	}
 	
 	void CameraControl()
@@ -42,7 +42,6 @@ public class kmg_camera_behaviour : MonoBehaviour
 	{
 		Initialize();
 		CameraControl();
-		cam.backgroundColor = new Color(0f, greenValue, 0f, 1f);
-		// 메인카메라의 배경색으로 플레이어의 y좌표를 최대 90까지 알 수 있음
+		cam.backgroundColor = new Color(0f, colorValue, colorValue, 1f);
 	}
 }
