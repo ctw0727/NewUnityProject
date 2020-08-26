@@ -228,24 +228,12 @@ public class ctw_Boss_behavior : MonoBehaviour
 	
 	void PatternUpdate(){
 		
-		if (AttackType < 2) AttackType++;
+		if (AttackType < 3) AttackType++;
 		else AttackType = 0;
 		CancelInvoke("PatternUpdate");
 	}
 	
 	void Attack_Pattern_0(){
-		
-		Invoke("PatternUpdate",4f);
-		
-		float angle = Get_angle_byPosition(PlayerTransform.position);
-		Attack_SetBullet(30f, Get_Target_AngleToPos(angle), Quaternion.AngleAxis(angle, Vector3.forward), 0f, 0f);
-		Attack_SetBullet(30f, Get_Target_AngleToPos(angle+7), Quaternion.AngleAxis(angle+7, Vector3.forward), 0f, 0f);
-		Attack_SetBullet(30f, Get_Target_AngleToPos(angle-7), Quaternion.AngleAxis(angle-7, Vector3.forward), 0f, 0f);
-		ATTACK = 1;
-		Invoke("Timer_AttackCool",0.8f);
-	}
-	
-	void Attack_Pattern_1(){
 		
 		Invoke("PatternUpdate",3f);
 		
@@ -260,9 +248,9 @@ public class ctw_Boss_behavior : MonoBehaviour
 		Invoke("Timer_AttackCool",1.0f);
 	}
 	
-	void Attack_Pattern_2(){
+	void Attack_Pattern_1(){
 		
-		Invoke("PatternUpdate",5f);
+		Invoke("PatternUpdate",3.2f);
 		float randomi = Random.Range(0f,9f);
 		
 		for(float i = 0; i<360; i+=10){
@@ -272,9 +260,37 @@ public class ctw_Boss_behavior : MonoBehaviour
 			Attack_SetBullet(20f, Get_Target_AngleToPos(270+i+randomi), Quaternion.AngleAxis(270+i+randomi, Vector3.forward), i, 0f);
 		}
 		ATTACK = 1;
-		Invoke("Timer_AttackCool",5f);
+		Invoke("Timer_AttackCool",3.2f);
 	}
 	
+	void Attack_Pattern_2(){
+		
+		Invoke("PatternUpdate",4f);
+		
+		for(float i = 0; i<360; i+=8){
+			
+			float randomi = Random.Range(0f,50f);
+			
+			Attack_SetBullet(10f, Get_Target_AngleToPos(i+randomi), Quaternion.AngleAxis(i+randomi, Vector3.forward), i, 0f);
+			Attack_SetBullet(10f, Get_Target_AngleToPos(120+i+randomi), Quaternion.AngleAxis(120+i+randomi, Vector3.forward), i, 0f);
+			Attack_SetBullet(10f, Get_Target_AngleToPos(240+i+randomi), Quaternion.AngleAxis(240+i+randomi, Vector3.forward), i, 0f);
+		}
+		
+		ATTACK = 1;
+		Invoke("Timer_AttackCool",4f);
+	}
+	
+	void Attack_Pattern_3(){
+		
+		Invoke("PatternUpdate",4f);
+		
+		float angle = Get_angle_byPosition(PlayerTransform.position);
+		Attack_SetBullet(30f, Get_Target_AngleToPos(angle), Quaternion.AngleAxis(angle, Vector3.forward), 0f, 0f);
+		Attack_SetBullet(30f, Get_Target_AngleToPos(angle+7), Quaternion.AngleAxis(angle+7, Vector3.forward), 0f, 0f);
+		Attack_SetBullet(30f, Get_Target_AngleToPos(angle-7), Quaternion.AngleAxis(angle-7, Vector3.forward), 0f, 0f);
+		ATTACK = 1;
+		Invoke("Timer_AttackCool",0.8f);
+	}
 	
 	
 	// Running
