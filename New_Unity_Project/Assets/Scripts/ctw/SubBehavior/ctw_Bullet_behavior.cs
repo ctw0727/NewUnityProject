@@ -20,7 +20,7 @@ public class ctw_Bullet_behavior : MonoBehaviour
 	
 	public bool Pop;
 	
-	float Alpha = 1f;
+	public float Alpha = 1f;
 	
 	ctw_Eraser_behavior Eraser1;
 	ctw_Eraser_behavior Eraser2;
@@ -37,6 +37,8 @@ public class ctw_Bullet_behavior : MonoBehaviour
 		
 		Eraser1 = GameObject.Find("ctw_Eraser_Player").GetComponent<ctw_Eraser_behavior>();
 		Eraser2 = GameObject.Find("ctw_Eraser_Boss").GetComponent<ctw_Eraser_behavior>();
+		
+		BulletTransform.localScale = new Vector2(1f/3f , 0.5f/3f);
     }
 	
 	float Math_Force(Vector3 Velocity){
@@ -61,7 +63,7 @@ public class ctw_Bullet_behavior : MonoBehaviour
 	}
 	
 	void WallChecking(){
-		if ( (Mathf.Abs(BulletTransform.position.x)>=32)||(Mathf.Abs(BulletTransform.position.y)>=13) ){
+		if ( (Mathf.Abs(BulletTransform.position.x)>=42)||(Mathf.Abs(BulletTransform.position.y)>=23) ){
 			StrikeWall();
 		}
 	}
@@ -91,14 +93,17 @@ public class ctw_Bullet_behavior : MonoBehaviour
 		switch(OnWork) {
 			
 			case true:
-				if (Timer == 0){
+				if (Alpha < 1f)
+					Alpha += 0.02f;
+				else
 					Alpha = 1f;
-					
-					BulletSprite.sprite = spriteBullet;
-					BulletSprite.color = new Color(R, G, B, 1f);
+				BulletSprite.sprite = spriteBullet;
+				BulletTransform.localScale = new Vector2(1f/3f , 0.5f/3f);
+				BulletSprite.color = new Color(R, G, B, Alpha);
+				
+				if (Timer == 0){
 					
 					BulletRigid2D.velocity = Get_Vector3_Direction(Angle) * Force;
-					BulletTransform.localScale = new Vector2(1f/3f , 0.5f/3f);
 				}
 			break;
 			

@@ -56,7 +56,7 @@ public class ctw_Player_behavior : MonoBehaviour
 	
 	float Math_Boss_Damage(){
 		
-		return Mathf.Abs((PlayerRigid2D.angularVelocity * Math_2D_Force(PlayerRigid2D.velocity.x, PlayerRigid2D.velocity.y) / 75f));
+		return (500f + Mathf.Abs((PlayerRigid2D.angularVelocity * Math_2D_Force(PlayerRigid2D.velocity.x, PlayerRigid2D.velocity.y) / 50f)) );
 	}
 	
 	

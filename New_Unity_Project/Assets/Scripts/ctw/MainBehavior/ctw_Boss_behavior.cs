@@ -161,12 +161,16 @@ public class ctw_Boss_behavior : MonoBehaviour
 		return VectorDirection;
 	}
 	
-	Quaternion Get_toPlayer_rotation(){
+	float Get_Vector3_Range(Vector3 Pos1, Vector3 Pos2){
+		
+		return Mathf.Sqrt(Mathf.Pow((Pos1.x - Pos2.x),2)+Mathf.Pow((Pos1.y - Pos2.y),2));
+	}
+	
+	Quaternion Get_toPlayer_rotation(Vector3 Pos){
 		
 		Vector3 PlayerPos = PlayerTransform.position;
-		Vector3 BossPos = BossTransform.position;
 		
-		float angle = Mathf.Atan2(PlayerPos.y-BossPos.y, PlayerPos.x-BossPos.x) * Mathf.Rad2Deg;
+		float angle = Mathf.Atan2(PlayerPos.y-Pos.y, PlayerPos.x-Pos.x) * Mathf.Rad2Deg;
 		
 		Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 		
@@ -220,6 +224,23 @@ public class ctw_Boss_behavior : MonoBehaviour
 		BulletScript.OnWork = true;
 		BulletScript.Timer = Timer_t;
 		BulletScript.Roll = roll;
+		BulletScript.Alpha = 0f;
+	}
+	
+	void Attack_TeleportBullet(float Force,Vector3 Target,Quaternion rotation, float Timer_t, float roll, Vector3 TPlocation){
+		
+		GameObject Bullet = Attack_CheckandReturn();
+		
+		Transform BulletTransform = Bullet.GetComponent<Transform>();
+		ctw_Bullet_behavior BulletScript = Bullet.GetComponent<ctw_Bullet_behavior>();
+		
+		BulletTransform.position = TPlocation;
+		BulletTransform.rotation = rotation;
+		BulletScript.Vel = Get_Vector3_Direction(Target)*Force;
+		BulletScript.OnWork = true;
+		BulletScript.Timer = Timer_t;
+		BulletScript.Roll = roll;
+		BulletScript.Alpha = 0f;
 	}
 	
 	
@@ -228,68 +249,91 @@ public class ctw_Boss_behavior : MonoBehaviour
 	
 	void PatternUpdate(){
 		
-		if (AttackType < 3) AttackType++;
+		// /* Turn this off when test new pattern
+		if (AttackType < 4) AttackType++;
 		else AttackType = 0;
+		// */
+		 /* Use This code to test new pattern
+		AttackType = 4;
+		 */
 		CancelInvoke("PatternUpdate");
 	}
 	
 	void Attack_Pattern_0(){
 		
-		Invoke("PatternUpdate",3f);
+		Invoke("PatternUpdate",2.4f);
 		
 		float randomi = Random.Range(0f,20f);
 		float randomj = Random.Range(-1.0f,1.0f);
 		randomj = randomj/Mathf.Abs(randomj);
 		for(float i = -180; i<180; i+=20){
-			Attack_SetBullet(20f, Get_Target_AngleToPos(i+randomi), Quaternion.AngleAxis(i+randomi, Vector3.forward), 0f, -0.4f*randomj);
-			Attack_SetBullet(15f, Get_Target_AngleToPos(i-10+randomi), Quaternion.AngleAxis(i-10+randomi, Vector3.forward), 0f, 0.4f*randomj);
+			Attack_SetBullet(25f, Get_Target_AngleToPos(i+randomi), Quaternion.AngleAxis(i+randomi, Vector3.forward), 0f, -0.25f*randomj);
+			Attack_SetBullet(18f, Get_Target_AngleToPos(i-10+randomi), Quaternion.AngleAxis(i-10+randomi, Vector3.forward), 0f, 0.2f*randomj);
 		}
 		ATTACK = 1;
-		Invoke("Timer_AttackCool",1.0f);
+		Invoke("Timer_AttackCool",0.8f);
 	}
 	
 	void Attack_Pattern_1(){
 		
-		Invoke("PatternUpdate",3.2f);
+		Invoke("PatternUpdate",1.5f);
 		float randomi = Random.Range(0f,9f);
-		
+
 		for(float i = 0; i<360; i+=10){
-			Attack_SetBullet(20f, Get_Target_AngleToPos(i+randomi), Quaternion.AngleAxis(i+randomi, Vector3.forward), i, 0f);
-			Attack_SetBullet(20f, Get_Target_AngleToPos(90+i+randomi), Quaternion.AngleAxis(90+i+randomi, Vector3.forward), i, 0f);
-			Attack_SetBullet(20f, Get_Target_AngleToPos(180+i+randomi), Quaternion.AngleAxis(180+i+randomi, Vector3.forward), i, 0f);
-			Attack_SetBullet(20f, Get_Target_AngleToPos(270+i+randomi), Quaternion.AngleAxis(270+i+randomi, Vector3.forward), i, 0f);
+			Attack_SetBullet(25f, Get_Target_AngleToPos(i+randomi), Quaternion.AngleAxis(i+randomi, Vector3.forward), i, 0f);
+			Attack_SetBullet(25f, Get_Target_AngleToPos(120+i+randomi), Quaternion.AngleAxis(120+i+randomi, Vector3.forward), i, 0f);
+			Attack_SetBullet(25f, Get_Target_AngleToPos(240+i+randomi), Quaternion.AngleAxis(240+i+randomi, Vector3.forward), i, 0f);
 		}
 		ATTACK = 1;
-		Invoke("Timer_AttackCool",3.2f);
+		Invoke("Timer_AttackCool",1.5f);
 	}
 	
 	void Attack_Pattern_2(){
 		
-		Invoke("PatternUpdate",4f);
+		Invoke("PatternUpdate",3f);
 		
 		for(float i = 0; i<360; i+=8){
 			
 			float randomi = Random.Range(0f,50f);
 			
-			Attack_SetBullet(10f, Get_Target_AngleToPos(i+randomi), Quaternion.AngleAxis(i+randomi, Vector3.forward), i, 0f);
-			Attack_SetBullet(10f, Get_Target_AngleToPos(120+i+randomi), Quaternion.AngleAxis(120+i+randomi, Vector3.forward), i, 0f);
-			Attack_SetBullet(10f, Get_Target_AngleToPos(240+i+randomi), Quaternion.AngleAxis(240+i+randomi, Vector3.forward), i, 0f);
+			Attack_SetBullet(10f-(i/120f), Get_Target_AngleToPos(i+randomi), Quaternion.AngleAxis(i+randomi, Vector3.forward), i, 0f);
+			Attack_SetBullet(10f-(i/120f), Get_Target_AngleToPos(120+i+randomi), Quaternion.AngleAxis(120+i+randomi, Vector3.forward), i, 0f);
+			Attack_SetBullet(10f-(i/120f), Get_Target_AngleToPos(240+i+randomi), Quaternion.AngleAxis(240+i+randomi, Vector3.forward), i, 0f);
 		}
 		
 		ATTACK = 1;
-		Invoke("Timer_AttackCool",4f);
+		Invoke("Timer_AttackCool",3f);
 	}
 	
 	void Attack_Pattern_3(){
 		
-		Invoke("PatternUpdate",4f);
+		Invoke("PatternUpdate",3.2f);
 		
+		float Range = Get_Vector3_Range(PlayerTransform.position, BossTransform.position);
 		float angle = Get_angle_byPosition(PlayerTransform.position);
-		Attack_SetBullet(30f, Get_Target_AngleToPos(angle), Quaternion.AngleAxis(angle, Vector3.forward), 0f, 0f);
-		Attack_SetBullet(30f, Get_Target_AngleToPos(angle+7), Quaternion.AngleAxis(angle+7, Vector3.forward), 0f, 0f);
-		Attack_SetBullet(30f, Get_Target_AngleToPos(angle-7), Quaternion.AngleAxis(angle-7, Vector3.forward), 0f, 0f);
+		
+		Attack_SetBullet( (50f-Range), Get_Target_AngleToPos(angle), Quaternion.AngleAxis(angle, Vector3.forward), 0f, 0f);
+		Attack_SetBullet( (50f-Range), Get_Target_AngleToPos(angle+7), Quaternion.AngleAxis(angle+7, Vector3.forward), 0f, 0f);
+		Attack_SetBullet( (50f-Range), Get_Target_AngleToPos(angle-7), Quaternion.AngleAxis(angle-7, Vector3.forward), 0f, 0f);
 		ATTACK = 1;
 		Invoke("Timer_AttackCool",0.8f);
+	}
+	
+	void Attack_Pattern_4(){
+		
+		Invoke("PatternUpdate",4.8f);
+		
+		Vector3 PlayerPos = PlayerTransform.position;
+		float angle = Get_angle_byPosition(PlayerTransform.position);
+		float randomi = Random.Range(40f,50f);
+		
+		for(float i = 0;i < 360;i += 30){
+			Vector3 TargetPos = PlayerPos + Get_Target_AngleToPos(i+randomi)*7f;
+			Attack_TeleportBullet(25f, Get_Target_AngleToPos(i+randomi+180), Quaternion.AngleAxis(i+randomi+180, Vector3.forward), 120f, 0f, TargetPos);
+		}
+		
+		ATTACK = 1;
+		Invoke("Timer_AttackCool",1.6f);
 	}
 	
 	

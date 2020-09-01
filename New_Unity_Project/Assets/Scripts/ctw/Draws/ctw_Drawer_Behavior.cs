@@ -25,12 +25,12 @@ public class ctw_Drawer_Behavior : MonoBehaviour
 		
 		for(int i = 0; i <= 2; i++){
 			
-			Heart[i] = Instantiate(HeartPrefab,new Vector3(0,0,0), new Quaternion(0,0,0,0));
+			Heart[i] = Instantiate(HeartPrefab,new Vector3(0,0,-5), new Quaternion(0,0,0,0));
 			HeartSet[i] = Heart[i].GetComponent<ctw_Heart_behavior>();
 			EffectorSet[i] = Heart[i].GetComponent<ctw_Effects_OnCam>();
 			
 			EffectorSet[i].SelfPos = new Vector3(-31f+(float)i*2.5f,-13.5f,-1f);
-			EffectorSet[i].Zpos = -1f;
+			EffectorSet[i].Zpos = -5f;
 		}
 	}
 	
